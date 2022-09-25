@@ -18,22 +18,19 @@ public class ItemRegistry {
 
     public static final RegistryObject<RomanArmorItem> galea = ITEMS.register("galea",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
-
     public static final RegistryObject<RomanArmorItem> lorica_segmentata = ITEMS.register("lorica_segmentata",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
-
     public static final RegistryObject<RomanArmorItem> ocrea = ITEMS.register("ocrea",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.LEGS, new Item.Properties()));
-
     public static final RegistryObject<RomanArmorItem> caligae = ITEMS.register("caligae",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.FEET, new Item.Properties()));
 
     public static final RegistryObject<Item> gladius = ITEMS.register("gladius",
             () -> new SwordItem(Tiers.IRON, 7, 1.6f,
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
-
+    
     public static final RegistryObject<Item> spatha = ITEMS.register("spatha",
-            () -> new SwordItem(Tiers.IRON, 7, 1.6f,
+            () -> new SwordItem(Tiers.IRON, 7, 1.6f, 
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
 
     public static final RegistryObject<Item> scutum = ITEMS.register("scutum",
