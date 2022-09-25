@@ -1,0 +1,8 @@
+{
+  "parent": "item/shield_blocking",
+  "textures": {
+    "particle": {
+      
+    }
+  }
+}
