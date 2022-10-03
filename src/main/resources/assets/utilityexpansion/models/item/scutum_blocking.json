@@ -1,6 +1,5 @@
 {
-  "credit": "Made with Blockbench",
-  "parent": "builtin/entity",
+  "parent": "utilityexpansion:item/scutum",
   "texture_size": [64, 64],
   "textures": {
     "0": "utilityexpansion:item/scutum_texture",
@@ -8,29 +7,29 @@
   },
   "display": {
     "thirdperson_righthand": {
-      "rotation": [ 90, 135, 0 ],
-      "translation": [ 3.51, 11, -2 ],
+      "rotation": [ 45, -15, 0.26 ],
+      "translation": [ 6.5, -9, 3],
       "scale": [ 1, 1, 1 ]
     },
     "thirdperson_lefthand": {
-      "rotation": [ 90, 135, 0 ],
-      "translation": [ 13.51, 3, 5 ],
+      "rotation": [ 45, -15, 0 ],
+      "translation": [-9, -6, 0 ],
       "scale": [ 1, 1, 1 ]
     },
     "firstperson_righthand": {
-      "rotation": [ 0, 180, -5 ],
-      "translation": [ -15, 5, -11 ],
-      "scale": [ 1.25, 1.25, 1.25 ]
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 20, -20, 0 ],
+      "scale": [ 2.5, 2, 1 ]
     },
     "firstperson_lefthand": {
-      "rotation": [ 0, 180, -5 ],
-      "translation": [ 5, 5, -11 ],
-      "scale": [ 1.25, 1.25, 1.25 ]
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ -20, -20, 0 ],
+      "scale": [ 2.5, 2, 1 ]
     },
     "gui": {
-      "rotation": [ 15, -25, -5 ],
-      "translation": [ 2, 3, 0 ],
-      "scale": [ 0.65, 0.65, 0.65 ]
+      "rotation": [166.68, 37.81, -158.92],
+      "translation": [0, -2, 0],
+      "scale": [0.77, 0.675, 1]
     }
   }
 }
