@@ -5,6 +5,14 @@
 		"0": "utilityexpansion:item/scutum_texture",
 		"particle": "utilityexpansion:item/scutum_texture"
 	},
+	"overrides": [
+		{
+			"predicate": {
+				"minecraft:blocking": 1
+			},
+			"model": "utilityexpansion:item/scutum_blocking"
+		}
+	],
 	"elements": [
 		{
 			"from": [-2.5, 0, -1],
@@ -766,14 +774,15 @@
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, -50, 0],
-			"translation": [-7, -5, -5]
+			"translation": [-2, -5, -5]
 		},
 		"ground": {
 			"translation": [7.75, 3.75, 6.75]
 		},
 		"gui": {
-			"rotation": [0, 180, 0],
-			"translation": [-7.75, -2.25, 0]
+			"rotation": [166.68, 37.81, -158.92],
+			"translation": [0, -2, 0],
+			"scale": [0.77, 0.675, 1]
 		},
 		"head": {
 			"translation": [7.5, 4.5, 5.75]
@@ -781,33 +790,5 @@
 		"fixed": {
 			"translation": [7.75, -2.25, 6.25]
 		}
-	},
-	"overrides": [
-		{
-			"predicate": {
-				"blocking": 1
-			},
-			"model": "item/shield_blocking"
-		}
-	],
-	"groups": [
-		{
-			"name": "shieldbody",
-			"origin": [0, 0, 0],
-			"color": 0,
-			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-		},
-		{
-			"name": "center",
-			"origin": [0, 0, 0],
-			"color": 0,
-			"children": [16, 17, 18, 19, 20, 21]
-		},
-		{
-			"name": "edge",
-			"origin": [0, 0, 0],
-			"color": 0,
-			"children": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
-		}
-	]
+	}
 }
