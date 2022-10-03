@@ -1,6 +1,7 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.registry.ItemRegistry;
+import boomty.utilityexpansion.util.ModItemProperties;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -46,6 +48,8 @@ public class utilityexpansion {
         // Register the processIMC method for modloading
         eventBus.addListener(this::processIMC);
 
+        eventBus.addListener(this::clientSetup);
+
         GeckoLibMod.DISABLE_IN_DEV = true;
         GeckoLib.initialize();
 
@@ -62,6 +66,10 @@ public class utilityexpansion {
         // Some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    }
+
+    private void clientSetup(final FMLClientSetupEvent event) {
+        ModItemProperties.addCustomItemProperties();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
