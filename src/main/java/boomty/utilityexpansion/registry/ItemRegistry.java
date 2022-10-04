@@ -38,6 +38,10 @@ public class ItemRegistry{
 
     public static final RegistryObject<ShieldItem> scutum = ITEMS.register("scutum",
             () -> new ShieldItem(new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));;
+    
+    public static final RegistryObject<Item> ANIMATED_ITEM = ITEMS.register("animated_item",
+            () -> new TestingItem(Tiers.IRON, 7, 1.6f,
+                    new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo((1))));
 
 //    public static final RegistryObject<RomanShieldItem> scutum = ITEMS.register("scutum",
 //            () -> new RomanShieldItem(new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1), 350));
