@@ -8,12 +8,12 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class TestingItemModel extends AnimatedGeoModel<TestingItem> {
     @Override
     public ResourceLocation getModelLocation(TestingItem object) {
-        return new ResourceLocation(utilityexpansion.MOD_ID, "geo/gladius.geo.json");
+        return new ResourceLocation(utilityexpansion.MOD_ID, "geo/animated_item.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureLocation(TestingItem object) {
-        return new ResourceLocation(utilityexpansion.MOD_ID, "textures/item/gladius_item.png");
+        return new ResourceLocation(utilityexpansion.MOD_ID, "textures/item/animated_item.png");
     }
 
     @Override
