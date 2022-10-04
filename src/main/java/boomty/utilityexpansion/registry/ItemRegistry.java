@@ -2,6 +2,7 @@ package boomty.utilityexpansion.registry;
 
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.item.RomanArmorItem;
+import boomty.utilityexpansion.item.TestingItem;
 import boomty.utilityexpansion.item.RomanShieldItem;
 import boomty.utilityexpansion.utilityexpansion;
 import net.minecraft.client.renderer.item.ItemProperties;
