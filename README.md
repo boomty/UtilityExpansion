@@ -1,5 +1,3 @@
-Utility Expansions
-#Weapons and Tools Mod
+Utility Expansion
 
-A mod aimed at adding 3D weapons and armor using geckolib.
-Also made by 2 people who have never seen Java before (The code is bad)
+Mod aimed at adding 3D swords, armors, and tools into the game using [Geckolib](https://geckolib.com/)
