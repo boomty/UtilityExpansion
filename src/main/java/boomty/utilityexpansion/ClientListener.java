@@ -1,7 +1,9 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
+import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
 import boomty.utilityexpansion.item.RomanArmorItem;
+import boomty.utilityexpansion.item.TunicItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +18,7 @@ public class ClientListener {
     public static void registerArmorRenderers(final EntityRenderersEvent.AddLayers event) {
         if (!FMLEnvironment.production && !utilityexpansion.DISABLE_IN_DEV) {
             GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
+            GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
         }
     }
-
 }
