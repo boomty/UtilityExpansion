@@ -1,53 +1,85 @@
 package boomty.utilityexpansion.item;
 
+import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
+import net.minecraft.commands.arguments.item.ItemInput;
+import boomty.utilityexpansion.utilityexpansion;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.item.GeoArmorItem;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
-public class TunicItem extends ArmorItem {
+public class TunicItem extends GeoArmorItem implements IAnimatable {
 
-    public TunicItem(ArmorMaterial p_40386_, EquipmentSlot p_40387_, Properties p_40388_) {
-        super(p_40386_, p_40387_, p_40388_);
+    private AnimationFactory factory = new AnimationFactory(this);
+
+    public TunicItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
+        super(materialIn, slot, builder.tab(utilityexpansion.utilexpanseitemgroup));
     }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<TunicItem>(this, "controller",
+                20, this::predicate));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
+
+    private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+        return PlayState.CONTINUE;
+    }
+
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, utilityexpansion.MOD_ID);
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level p_40395_, Player p_40396_, InteractionHand p_40397_) {
 
+        //second solution
+//        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(utilityexpansion.MOD_ID, "geo/tunic_item.geo.json"));
+//        ItemStack itemstack2 = new ItemStack(item);
+
         //Sets itemstack equal to the item currently held by player "p_40396_"
         ItemStack itemstack = p_40396_.getItemInHand(p_40397_);
-
-        //Sets itemstack2 equal to the corresponding "tunic legging"
-//      ItemStack itemstack2 = ;
-
+        //creates a new tunicItem with the type Item
+        Item tunicItem = new TunicItem(ArmorMaterials.LEATHER, EquipmentSlot.LEGS, new Item.Properties());
+        //Uses ItemStack constructor to create a new ItemStack with an Item
+        ItemStack itemstack2 = new ItemStack(tunicItem);
+        //Finds the equipment slot designated to a chestplate (chest slot)
         EquipmentSlot equipmentslot = Mob.getEquipmentSlotForItem(itemstack);
-        ItemStack itemstack1 = p_40396_.getItemBySlot(equipmentslot);
-        ItemStack itemstack2 = p_40396_.getItemBySlot(equipmentslot.LEGS);
-
-//        getItemBySlot method:
-//        public ItemStack getItemBySlot(EquipmentSlot p_36257_) {
-//            if (p_36257_ == EquipmentSlot.MAINHAND) {
-//                return this.inventory.getSelected();
-//            } else if (p_36257_ == EquipmentSlot.OFFHAND) {
-//                return this.inventory.offhand.get(0);
-//            } else {
-//                return p_36257_.getType() == EquipmentSlot.Type.ARMOR ? this.inventory.armor.get(p_36257_.getIndex()) : ItemStack.EMPTY;
-//            }
-//        }
+        //
+        ItemStack itemstack3 = p_40396_.getItemBySlot(equipmentslot);
+        ItemStack itemstack4 = p_40396_.getItemBySlot(equipmentslot.LEGS);
 
         //Checks if chestplate and legging slot is empty
-        if (itemstack1.isEmpty() && itemstack2.isEmpty())
+        if (itemstack3.isEmpty() && itemstack4.isEmpty())
         {
             p_40396_.setItemSlot(equipmentslot, itemstack.copy());
             //Put "tunic legging" into leg slot
             //Make sure to change itemstack.copy()
-            p_40396_.setItemSlot(equipmentslot.LEGS, itemstack.copy());
+            p_40396_.setItemSlot(equipmentslot.LEGS, itemstack2.copy());
 
             if (!p_40395_.isClientSide())
             {
@@ -60,5 +92,14 @@ public class TunicItem extends ArmorItem {
         {
             return InteractionResultHolder.fail(itemstack);
         }
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
+        GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
+    }
+
+    public static void register(IEventBus eventBus) {
+        ITEMS.register(eventBus);
     }
 }
