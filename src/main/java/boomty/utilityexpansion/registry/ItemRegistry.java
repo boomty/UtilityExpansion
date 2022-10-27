@@ -31,6 +31,9 @@ public class ItemRegistry{
     public static final RegistryObject<TunicItem> tunic = ITEMS.register("tunic",
             () -> new TunicItem(ArmorMaterials.LEATHER, EquipmentSlot.CHEST, new Item.Properties()));
 
+    public static final RegistryObject<TunicItem> tunic_legs = ITEMS.register("tunic_legs",
+            () -> new TunicItem(ArmorMaterials.LEATHER, EquipmentSlot.LEGS, new Item.Properties()));
+
     public static final RegistryObject<Item> gladius = ITEMS.register("gladius",
             () -> new SwordItem(Tiers.IRON, 7, 1.6f,
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
