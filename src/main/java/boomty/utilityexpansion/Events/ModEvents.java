@@ -28,4 +28,19 @@ public class ModEvents {
             player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(TunicLegs));
         }
     }
+    
+    @SubscribeEvent
+    public static void equipLorica(LivingEquipmentChangeEvent event)
+    {
+        Item LoricaLegs = ItemRegistry.lorica_legs.get();
+        //Initialize player object
+        Player player = (Player) event.getEntity();
+        //Check if the chest slot and leg slot are empty
+        if (player.getItemBySlot(event.getSlot()).isEmpty() && player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) {
+            //equip chestpiece onto chest slot
+            player.setItemSlot(event.getSlot(), player.getItemInHand(InteractionHand.MAIN_HAND));
+            //equip lower part on to leg slot
+            player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(LoricaLegs));
+        }
+    }
 }
