@@ -23,7 +23,7 @@ public class ItemRegistry{
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
     public static final RegistryObject<RomanArmorItem> lorica_segmentata = ITEMS.register("lorica_segmentata",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
-    public static final RegistryObject<RomanArmorItem> ocrea = ITEMS.register("ocrea",
+    public static final RegistryObject<RomanArmorItem> lorica_legs = ITEMS.register("lorica_legs",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.LEGS, new Item.Properties()));
     public static final RegistryObject<RomanArmorItem> caligae = ITEMS.register("caligae",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.FEET, new Item.Properties()));
