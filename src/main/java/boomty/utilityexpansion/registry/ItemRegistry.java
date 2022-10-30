@@ -37,14 +37,14 @@ public class ItemRegistry{
     public static final RegistryObject<Item> gladius = ITEMS.register("gladius",
             () -> new SwordItem(Tiers.IRON, 7, 1.6f,
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
-    
+
     public static final RegistryObject<Item> spatha = ITEMS.register("spatha",
-            () -> new SwordItem(Tiers.IRON, 7, 1.6f, 
+            () -> new SwordItem(Tiers.IRON, 7, 1.6f,
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
 
     public static final RegistryObject<ShieldItem> scutum = ITEMS.register("scutum",
             () -> new ShieldItem(new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
-    
+
     public static final RegistryObject<Item> animated_item = ITEMS.register("animated_item",
             () -> new TestingItem(Tiers.IRON, 7, 1.6f,
                     new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
