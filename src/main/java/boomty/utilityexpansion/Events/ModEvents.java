@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -56,6 +57,38 @@ public class ModEvents {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void equipArmorStand(LivingEquipmentChangeEvent event)
+    {
+        if (event.getEntity() instanceof ArmorStand armorStand)
+        {
+            Item loricaLegs = ItemRegistry.lorica_legs.get();
+            Item loricaSegmentata = ItemRegistry.lorica_segmentata.get();
+
+            Item tunicItem = ItemRegistry.tunic.get();
+            Item tunicLegsItem = ItemRegistry.tunic_legs.get();
+
+            //Check if the chest slot and leg slot are empty
+            if (armorStand.getItemBySlot(EquipmentSlot.CHEST).getItem() == loricaSegmentata) {
+                //equip lower part on to leg slot
+                armorStand.setItemSlot(EquipmentSlot.LEGS, new ItemStack(loricaLegs));
+            }
+            else if (armorStand.hasItemInSlot(EquipmentSlot.LEGS) && armorStand.getItemBySlot(EquipmentSlot.LEGS).getItem() == loricaLegs)
+            {
+                armorStand.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+            }
+            else if (armorStand.getItemBySlot(EquipmentSlot.CHEST).getItem() == tunicItem) {
+                //equip lower part on to leg slot
+                armorStand.setItemSlot(EquipmentSlot.LEGS, new ItemStack(tunicLegsItem));
+            }
+            else if (armorStand.hasItemInSlot(EquipmentSlot.LEGS) && armorStand.getItemBySlot(EquipmentSlot.LEGS).getItem() == tunicLegsItem)
+            {
+                armorStand.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+            }
+        }
+    }
+
 
 //    @SubscribeEvent
 //    public static void equipArmorStand(PlayerInteractEvent.EntityInteract event)
