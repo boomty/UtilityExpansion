@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ import java.util.Optional;
 //}
 
 @Mixin(Slot.class)
-public abstract class ArmorSlotLock {
+public abstract class SlotMixin {
     // if the player tries to remove the tunic legs or lorica legs they will not be able to
     @Redirect(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;mayPickup(Lnet/minecraft/world/entity/player/Player;)Z"))
     public boolean tryRemove(Slot instance, Player p_40228_) {
@@ -39,9 +40,9 @@ public abstract class ArmorSlotLock {
     }
 
     // if the tunic or lorica segmentata is being removed, the leg part will be removed too
-    @Inject(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;remove(I)Lnet/minecraft/world/item/ItemStack;"))
-    public void tryRemove(int p_150642_, int p_150643_, Player p_150644_, CallbackInfoReturnable<Optional<ItemStack>> cir) {
-        if (p_150644_.getItemBySlot(EquipmentSlot.CHEST).getItem() == ItemRegistry.tunic.get() || p_150644_.getItemBySlot(EquipmentSlot.CHEST).getItem() == ItemRegistry.lorica_segmentata.get())
+    @Inject(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
+    public void tryRemove(int p_150642_, int p_150643_, Player p_150644_, CallbackInfoReturnable<Optional<ItemStack>> cir, ItemStack itemStack) {
+        if (itemStack.getItem() == ItemRegistry.tunic.get() || itemStack.getItem() == ItemRegistry.lorica_segmentata.get())
             p_150644_.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
     }
 }
