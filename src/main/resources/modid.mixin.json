@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "boomty.utilityexpansion.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "PlayerMixin",
+    "ArmorSlotLock"
+  ],
+  "client": [
+    "PlayerMixin",
+    "ArmorSlotLock"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "modid.mixin-refmap.json"
+}
