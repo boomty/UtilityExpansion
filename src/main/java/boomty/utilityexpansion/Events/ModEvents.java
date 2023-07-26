@@ -1,18 +1,13 @@
-package boomty.utilityexpansion.events;
+package boomty.utilityexpansion.Events;
 
 import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.utilityexpansion;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -27,13 +22,25 @@ public class ModEvents {
             Item tunicItem = ItemRegistry.tunic.get();
             Item tunicLegsItem = ItemRegistry.tunic_legs.get();
 
-            if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == tunicItem) {
+            // if player equips tunic and there is nothing in the leg slot
+            if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == tunicItem && !player.hasItemInSlot(EquipmentSlot.LEGS)) {
                 //equip lower part on to leg slot
                 player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(tunicLegsItem));
             }
-            else if (player.hasItemInSlot(EquipmentSlot.LEGS) && player.getItemBySlot(EquipmentSlot.LEGS).getItem() == tunicLegsItem)
+            // if the player equips a tunic and there is something already in the leg slot
+            else if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == tunicItem && player.getItemBySlot(EquipmentSlot.LEGS).getItem() != tunicLegsItem)
             {
+                // save the item currently on leg slot
+                ItemStack currentLeggings = player.getItemBySlot(EquipmentSlot.LEGS);
+                player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(tunicLegsItem));
+                player.setItemSlot(EquipmentSlot.MAINHAND, currentLeggings);
+            }
+            // if the player unequips the tunic
+            else if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() != tunicItem && player.getItemBySlot(EquipmentSlot.LEGS).getItem() == tunicLegsItem) {
                 player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+            }
+            else if (player.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == tunicLegsItem) {
+                player.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             }
         }
     }
@@ -46,14 +53,25 @@ public class ModEvents {
             Item loricaLegs = ItemRegistry.lorica_legs.get();
             Item loricaSegmentata = ItemRegistry.lorica_segmentata.get();
 
-            //Check if the chest slot and leg slot are empty
-            if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == loricaSegmentata) {
+            // if player equips tunic and there is nothing in the leg slot
+            if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == loricaSegmentata && !player.hasItemInSlot(EquipmentSlot.LEGS)) {
                 //equip lower part on to leg slot
                 player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(loricaLegs));
             }
-            else if (player.hasItemInSlot(EquipmentSlot.LEGS) && player.getItemBySlot(EquipmentSlot.LEGS).getItem() == loricaLegs)
+            // if the player equips a tunic and there is something already in the leg slot
+            else if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == loricaSegmentata && player.getItemBySlot(EquipmentSlot.LEGS).getItem() != loricaLegs)
             {
+                // save the item currently on leg slot
+                ItemStack currentLeggings = player.getItemBySlot(EquipmentSlot.LEGS);
+                player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(loricaLegs));
+                player.setItemSlot(EquipmentSlot.MAINHAND, currentLeggings);
+            }
+            // if the player unequips the tunic
+            else if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() != loricaSegmentata && player.getItemBySlot(EquipmentSlot.LEGS).getItem() == loricaLegs) {
                 player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+            }
+            else if (player.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == loricaLegs) {
+                player.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             }
         }
     }
