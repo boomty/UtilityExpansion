@@ -3,6 +3,7 @@
   "package": "boomty.utilityexpansion.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ArmorItemMixin",
     "PlayerMixin",
     "SlotMixin"
   ],
