@@ -12,27 +12,31 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ArmorItem.class)
 public abstract class ArmorItemMixin extends Item {
+    ItemStack lorica_legs = new ItemStack(ItemRegistry.lorica_legs.get());
+    ItemStack lorica_segmentata = new ItemStack(ItemRegistry.lorica_segmentata.get());
+
     public ArmorItemMixin(Properties p_41383_, int hasLegComponent) {
         super(p_41383_);
     }
 
     // if player equips armor with corresponding leg part the leg part will go on as well
-    @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setItemSlot(Lnet/minecraft/world/entity/EquipmentSlot;Lnet/minecraft/world/item/ItemStack;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
-    public void set(Level p_40395_, Player p_40396_, InteractionHand p_40397_, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, ItemStack itemstack) {
-        // If the item in hand is a lorica segmentata
-        if (itemstack.getItem().getRegistryName() == ItemRegistry.lorica_segmentata.get().getRegistryName()) {
-            // save item currently on leg slot
-            ItemStack saveItem = p_40396_.getItemBySlot(EquipmentSlot.LEGS);
-            // set leg slot to corresponding armor
-            p_40396_.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ItemRegistry.lorica_legs.get()));
-            // give user the saved item in their mainhand
-            p_40396_.addItem(saveItem);
-
-        }
-    }
+//    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setItemSlot(Lnet/minecraft/world/entity/EquipmentSlot;Lnet/minecraft/world/item/ItemStack;)V"))
+//    public void set(Player instance, EquipmentSlot p_36161_, ItemStack p_36162_) {
+//        // If the item in hand is a lorica segmentata
+//        if (ItemStack.matches(p_36162_, lorica_segmentata)) {
+//            // save item currently on leg slot
+//            ItemStack saveItem = instance.getItemBySlot(EquipmentSlot.LEGS);
+//            // set leg slot to corresponding armor
+//            instance.setItemSlot(EquipmentSlot.LEGS, lorica_legs);
+//            // give user the saved item in their mainhand
+//            instance.addItem(saveItem);
+//        }
+//        instance.setItemSlot(p_36161_, p_36162_);
+//    }
 }
