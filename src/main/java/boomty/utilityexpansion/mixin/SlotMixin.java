@@ -28,22 +28,22 @@ import java.util.Optional;
 @Mixin(Slot.class)
 public abstract class SlotMixin {
     // if the player tries to remove the tunic legs or lorica legs they will not be able to
-    @Redirect(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;mayPickup(Lnet/minecraft/world/entity/player/Player;)Z"))
-    public boolean tryRemove(Slot instance, Player p_40228_) {
-        ItemStack itemstack = instance.getItem();
-        boolean returnValue;
-
-        if (!itemstack.isEmpty() && !p_40228_.isCreative() && EnchantmentHelper.hasBindingCurse(itemstack))
-            returnValue = false;
-        else returnValue = itemstack.getItem() != ItemRegistry.tunic_legs.get() && itemstack.getItem() != ItemRegistry.lorica_legs.get();
-        return returnValue;
-    }
+//    @Redirect(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;mayPickup(Lnet/minecraft/world/entity/player/Player;)Z"))
+//    public boolean tryRemove(Slot instance, Player p_40228_) {
+//        ItemStack itemstack = instance.getItem();
+//        boolean returnValue;
+//
+//        if (!itemstack.isEmpty() && !p_40228_.isCreative() && EnchantmentHelper.hasBindingCurse(itemstack))
+//            returnValue = false;
+//        else returnValue = itemstack.getItem() != ItemRegistry.tunic_legs.get() && itemstack.getItem() != ItemRegistry.lorica_legs.get();
+//        return returnValue;
+//    }
 
     // if the tunic or lorica segmentata is being removed, the leg part will be removed too
-    @Inject(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void tryRemove(int p_150642_, int p_150643_, Player p_150644_, CallbackInfoReturnable<Optional<ItemStack>> cir, ItemStack itemStack) {
-        // if the item we're trying to remove is a lorica segementata and the item in the leg slot is a lorica tunic
-        if (itemStack.getItem().getRegistryName() == ItemRegistry.lorica_segmentata.get().getRegistryName() && p_150644_.getItemBySlot(EquipmentSlot.LEGS).getItem().getRegistryName() == ItemRegistry.lorica_legs.get().getRegistryName())
-            p_150644_.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
-    }
+//    @Inject(method = "tryRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
+//    public void tryRemove(int p_150642_, int p_150643_, Player p_150644_, CallbackInfoReturnable<Optional<ItemStack>> cir, ItemStack itemStack) {
+//        // if the item we're trying to remove is a lorica segementata and the item in the leg slot is a lorica tunic
+//        if (itemStack.getItem().getRegistryName() == ItemRegistry.lorica_segmentata.get().getRegistryName() && p_150644_.getItemBySlot(EquipmentSlot.LEGS).getItem().getRegistryName() == ItemRegistry.lorica_legs.get().getRegistryName())
+//            p_150644_.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+//    }
 }
