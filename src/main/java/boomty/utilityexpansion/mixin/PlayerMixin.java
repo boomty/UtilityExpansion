@@ -25,5 +25,7 @@ public abstract class PlayerMixin extends LivingEntity {
             ((Player)(Object)this).setItemSlot(EquipmentSlot.LEGS, new ItemStack(ItemRegistry.tunic_legs.get()));
         else if (p_36162_.getItem() == ItemRegistry.lorica_segmentata.get())
             ((Player)(Object)this).setItemSlot(EquipmentSlot.LEGS, new ItemStack(ItemRegistry.lorica_legs.get()));
+            if (p_36162_.getItem() == ItemStack.EMPTY.getItem())
+                ((Player)(Object)this).setItemSlot(EquipmentSlot.LEGS, new ItemStack(ItemRegistry.lorica_legs.get()));
     }
 }
