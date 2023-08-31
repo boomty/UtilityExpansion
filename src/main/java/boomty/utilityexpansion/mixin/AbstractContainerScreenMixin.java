@@ -54,7 +54,6 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         AbstractContainerScreen<T> instance = ((AbstractContainerScreen<T>) (Object) this);
         if (p_97778_ != null) {
             String slotItem = p_97778_.getItem().getItem().getDescriptionId();
-            ItemStack itemStack = correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId()));
 
             // prevent player from removing leg portion
             // ItemStack.matches(p_97778_.getItem(), lorica_legs)
