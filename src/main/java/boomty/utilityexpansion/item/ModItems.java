@@ -7,9 +7,9 @@ import java.util.Hashtable;
 
 public class ModItems {
     // itemPairs allows user to find the register ID of a corresponding armor item
-    private Hashtable<String, String> itemPairs = new Hashtable<>();
+    private final Hashtable<String, String> itemPairs = new Hashtable<>();
     // correspondingItemStack allows user to get Itemstack from register ID
-    private Hashtable<String, ItemStack> correspondingItemStack = new Hashtable<>();
+    private final Hashtable<String, ItemStack> correspondingItemStack = new Hashtable<>();
 
     public ModItems() {
         itemPairs.put("item.utilityexpansion.lorica_segmentata", "item.utilityexpansion.lorica_legs");
