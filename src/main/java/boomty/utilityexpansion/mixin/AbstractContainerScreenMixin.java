@@ -46,42 +46,84 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
 
     // method for equipping and unequipping corresponding armor 
     @Inject(method = "slotClicked", at = @At(value = "HEAD"), cancellable = true)
-    public void slotClicked(Slot p_97778_, int p_97779_, int p_97780_, ClickType p_97781_, CallbackInfo ci){
+    public void slotClicked(Slot p_97778_, int p_97779_, int p_97780_, ClickType p_97781_, CallbackInfo ci) {
         ModItems modItems = new ModItems();
         Hashtable<String, String> itemMap = modItems.getItemMap();
         Hashtable<String, ItemStack> correspondingItemStack = modItems.getCorrespondingItemStack();
 
         AbstractContainerScreen<T> instance = ((AbstractContainerScreen<T>) (Object) this);
         if (p_97778_ != null) {
+            Player player = instance.getMinecraft().player;
             String slotItem = p_97778_.getItem().getItem().getDescriptionId();
 
-            // prevent player from removing leg portion
+            // prevent player from removing leg portion when chest item is there
             // ItemStack.matches(p_97778_.getItem(), lorica_legs)
-            if (itemMap.containsValue(slotItem)) {
+            if (itemMap.containsValue(slotItem) && player.getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
                 ci.cancel();
             }
             // if player is manually dragging item into armor slot
             // p_97779_ == 6 && ItemStack.matches(instance.getMenu().getCarried(), lorica_segmentata)
             else if (p_97779_ == 6 && itemMap.containsKey(instance.getMenu().getCarried().getDescriptionId())) {
-                // need to check to make sure there are at least two empty slots in inventory
-                instance.getMinecraft().player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId())));
+                // if player has something in the leg slot already, check to make sure there is at least 1 empty slot
+                if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
+                    // corresponding leg item
+                    ItemStack legArmor = correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId()));
+                    // save current item in leg slot
+                    ItemStack currentItem = player.getItemBySlot(EquipmentSlot.LEGS);
+                    // set leg slot with corresponding item
+                    player.setItemSlot(EquipmentSlot.LEGS, legArmor);
+                    // return saved item to player
+                    if (!correspondingItemStack.containsValue(legArmor))
+                        player.addItem(currentItem);
+                }
+                // if the player has nothing in their leg slot
+                else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY) {
+                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId())));
+                }
             }
             // if player shift clicks item into slot
             // p_97781_ == ClickType.QUICK_MOVE && ItemStack.matches(p_97778_.getItem(), lorica_segmentata) && p_97779_ != 6
             else if (p_97781_ == ClickType.QUICK_MOVE && itemMap.containsKey(slotItem) && p_97779_ != 6) {
-                ((AbstractContainerScreen<T>) (Object) this).getMinecraft().player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(slotItem)));
+                // if player has something already in their leg slot, make sure there is at least one slot empty
+                if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
+                    ItemStack legArmor = correspondingItemStack.get(itemMap.get(slotItem));
+                    // save current item in leg slot
+                    ItemStack currentItem = player.getItemBySlot(EquipmentSlot.LEGS);
+                    // set leg slot with corresponding item
+                    player.setItemSlot(EquipmentSlot.LEGS, legArmor);
+                    // return saved item to player
+                    if (!correspondingItemStack.containsKey(legArmor.getDescriptionId()))
+                        player.addItem(currentItem);
+                }
+                // if the player has nothing in their leg slot
+                else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY){
+                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(slotItem)));
+                }
             }
             // if player removes chestplate by pressing hotbar key
             // p_97779_ == 6 && p_97781_ == ClickType.SWAP && ItemStack.matches(p_97778_.getItem(), lorica_segmentata)
             else if (p_97779_ == 6 && p_97781_ == ClickType.SWAP && itemMap.containsKey(slotItem)) {
-                ((AbstractContainerScreen<T>) (Object) this).getMinecraft().player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+                player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
             }
             // if player removes chestplate by clicking
             // p_97779_ == 6 && ItemStack.matches(p_97778_.getItem(), lorica_segmentata)
             else if (p_97779_ == 6 && itemMap.containsKey(slotItem)) {
-                ((AbstractContainerScreen<T>) (Object) this).getMinecraft().player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+                player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
             }
         }
+    }
+
+    public int numOfEmptySlots() {
+        NonNullList<ItemStack> playerInventory = ((AbstractContainerScreen<T>) (Object) this).getMinecraft().player.getInventory().items;
+        int numOfEmptySlots = 0;
+
+        for (ItemStack item : playerInventory) {
+            if (ItemStack.matches(new ItemStack(Items.AIR), item)) {
+                numOfEmptySlots++;
+            }
+        }
+
+        return numOfEmptySlots;
     }
 
 }
