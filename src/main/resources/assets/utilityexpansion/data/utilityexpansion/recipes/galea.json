@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_door",
+  "pattern": [
+    " C ",
+    "BAB",
+    "A A"
+  ],
+  "key": {
+    "A": {
+      "item": "utilityexpansion:steel_ingot"
+    },
+    "B":{
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "utilityexpansion:galea",
+    "count": 3
+  }
+}
