@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "boomty.utilityexpansion.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "PlayerMixin",
+    "SlotMixin"
+  ],
+  "client": [
+    "AbstractContainerScreenMixin",
+    "MultiPlayerGameModeMixin",
+    "PlayerMixin",
+    "SlotMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "modid.mixin-refmap.json"
+}
