@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: utilityexpansion
+Specification-Vendor: boomty, forstandan
+Specification-Version: 1
+Implementation-Title: utilityexpansion
+Implementation-Version: 1.0
+Implementation-Vendor: boomty, forstandan
+Implementation-Timestamp: 2022-10-01T20:25:01-0700
+
