@@ -133,6 +133,10 @@ repositories {
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven { url = 'https://repo.spongepowered.org/maven'}
     maven { url = 'https://maven.theillusivec4.top/'}
+    maven {
+        name "KosmX's maven"
+        url 'https://maven.kosmx.dev/'
+    }
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
     // flatDir {
     //     dir 'libs'
@@ -147,6 +151,7 @@ dependencies {
 
     //Geckolib Dependencies
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.36')
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:1.0.2+1.18")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency

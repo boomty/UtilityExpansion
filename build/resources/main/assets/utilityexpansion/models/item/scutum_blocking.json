@@ -1,8 +1,158 @@
 {
-  "parent": "item/shield_blocking",
-  "textures": {
-    "particle": {
-      
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.model.roman_shield": {
+      "animation_length": 0.75,
+      "bones": {
+        "bipedHead": {
+          "rotation": {
+            "vector": [0, 0, 0]
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.1667": {
+              "vector": [-1, -2, -1]
+            }
+          },
+          "scale": {
+            "vector": [1, 1, 1]
+          }
+        },
+        "armorHead": {
+          "rotation": {
+            "vector": [0, 0, 0]
+          },
+          "position": {
+            "vector": [0, 0, 0]
+          }
+        },
+        "bipedBody": {
+          "rotation": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [0, 7.5, 0]
+            },
+            "0.1667": {
+              "vector": [0, 75, 0]
+            }
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [0, 0, -1]
+            },
+            "0.1667": {
+              "vector": [0, -2, -1]
+            }
+          }
+        },
+        "armorBody": {
+          "rotation": {
+            "vector": [0, 0, 0]
+          },
+          "position": {
+            "vector": [0, 0, 0]
+          }
+        },
+        "bipedLeftArm": {
+          "rotation": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.1667": {
+              "vector": [16.73634, 42.406, 24.03208]
+            }
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.1667": {
+              "vector": [1, -2, 3]
+            }
+          }
+        },
+        "bipedRightArm": {
+          "rotation": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [-12.60443, 7.32123, -1.63219]
+            },
+            "0.1667": {
+              "vector": [-47.68992, 44.95753, -5.46342]
+            }
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [0, 0, -2]
+            },
+            "0.1667": {
+              "vector": [-3, -3, -5]
+            }
+          }
+        },
+        "bipedLeftLeg": {
+          "rotation": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [-7.5, 0, 0]
+            },
+            "0.1667": {
+              "vector": [-5.12436, 42.05244, -6.82047]
+            }
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.0833": {
+              "vector": [0, 0, -1]
+            },
+            "0.1667": {
+              "vector": [-3, 0, -5]
+            }
+          }
+        },
+        "bipedRightLeg": {
+          "rotation": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.1667": {
+              "vector": [32.09615, 39.95426, 3.26206]
+            }
+          },
+          "position": {
+            "0.0": {
+              "vector": [0, 0, 0]
+            },
+            "0.1667": {
+              "vector": [0, -1, 2]
+            }
+          }
+        },
+        "armorRightBoot": {
+          "rotation": {
+            "vector": [0, 0, 0]
+          },
+          "position": {
+            "vector": [0, 0, 0]
+          }
+        }
+      }
     }
   }
 }

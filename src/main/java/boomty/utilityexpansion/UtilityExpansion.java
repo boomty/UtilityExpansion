@@ -8,6 +8,11 @@ import boomty.utilityexpansion.client.renderer.armor.curios.TunicUpperRenderer;
 import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.ModItemProperties;
 import com.mojang.logging.LogUtils;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -80,6 +85,10 @@ public class UtilityExpansion {
         CuriosRendererRegistry.register(ItemRegistry.lorica_segmentata.get(), LoricaSegmentataRenderer::new);
         CuriosRendererRegistry.register(ItemRegistry.tunic.get(), TunicUpperRenderer::new);
         ModItemProperties.addCustomItemProperties();
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
+                new ResourceLocation(MOD_ID, "utilityexpansion/scutum_stance"),
+                1,
+                UtilityExpansion::registerPlayerAnimation);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -116,5 +125,10 @@ public class UtilityExpansion {
     private void registerLayers(final EntityRenderersEvent.RegisterLayerDefinitions evt) {
         evt.registerLayerDefinition(CuriosLayerDefinition.LORICA_SEGMENTATA, LoricaSegmentataModel::createBodyLayer);
         evt.registerLayerDefinition(CuriosLayerDefinition.TUNIC, TunicUpperModel::createBodyLayer);
+    }
+
+    private static IAnimation registerPlayerAnimation(AbstractClientPlayer player) {
+        //This will be invoked for every new player
+        return new ModifierLayer<>();
     }
 }
