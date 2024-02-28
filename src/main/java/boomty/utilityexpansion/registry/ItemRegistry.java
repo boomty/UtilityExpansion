@@ -4,9 +4,7 @@ import boomty.utilityexpansion.UtilityExpansion;
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
 import boomty.utilityexpansion.item.RomanArmorItem;
-//import boomty.utilityexpansion.item.TestingItem;
 import boomty.utilityexpansion.item.TunicItem;
-import boomty.utilityexpansion.item.wearable.body.Tunic;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -33,7 +31,7 @@ public class ItemRegistry{
     public static final RegistryObject<TunicItem> tunic = ITEMS.register("tunic",
             () -> new TunicItem(ArmorMaterials.LEATHER, EquipmentSlot.CHEST, new Item.Properties()));
 
-    public static final RegistryObject<Tunic> tunicItem = ITEMS.register("tunic_item", () -> new Tunic(new Item.Properties()));
+//    public static final RegistryObject<TunicItem> tunicItem = ITEMS.register("tunic_item", () -> new TunicItem(new Item.Properties()));
 
     public static final RegistryObject<TunicItem> tunic_legs = ITEMS.register("tunic_legs",
             () -> new TunicItem(ArmorMaterials.LEATHER, EquipmentSlot.LEGS, new Item.Properties()));

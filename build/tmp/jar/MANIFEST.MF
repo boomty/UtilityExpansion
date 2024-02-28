@@ -5,5 +5,8 @@ Specification-Version: 1
 Implementation-Title: utilityexpansion
 Implementation-Version: 1.0
 Implementation-Vendor: boomty, forstandan
-Implementation-Timestamp: 2022-10-01T20:25:01-0700
+Implementation-Timestamp: 2024-01-23T18:57:30-0800
+TweakClass: org.spongepowered.asm.launch.MixinTweaker
+TweakOrder: 0
+MixinConfigs: modid.mixin.json
 

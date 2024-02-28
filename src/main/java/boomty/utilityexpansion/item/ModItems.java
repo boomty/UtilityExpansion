@@ -6,6 +6,11 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Hashtable;
 import java.util.Map;
 
+/**
+ * Contains a map of all the mod items and its corresponding part. Used for multi-part simultaneous
+ * armor equipment, i.e. tunic upper and lower simultaneous equipment.
+ */
+
 public class ModItems {
     // itemPairs allows user to find the register ID of a corresponding armor item
     private Map<String, String> itemPairs = new Hashtable<>();

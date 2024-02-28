@@ -86,7 +86,7 @@ public class UtilityExpansion {
         CuriosRendererRegistry.register(ItemRegistry.tunic.get(), TunicUpperRenderer::new);
         ModItemProperties.addCustomItemProperties();
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
-                new ResourceLocation(MOD_ID, "utilityexpansion/scutum_stance"),
+                new ResourceLocation(MOD_ID, "animation"),
                 1,
                 UtilityExpansion::registerPlayerAnimation);
     }
