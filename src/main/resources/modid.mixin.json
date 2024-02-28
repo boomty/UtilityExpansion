@@ -3,10 +3,10 @@
   "package": "boomty.utilityexpansion.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "AbstractContainerScreenMixin",
+    "AbstractContainerScreenMixin"
   ],
   "client": [
-    "AbstractContainerScreenMixin",
+    "AbstractContainerScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
