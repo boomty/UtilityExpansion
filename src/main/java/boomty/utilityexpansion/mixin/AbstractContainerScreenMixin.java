@@ -1,7 +1,5 @@
 package boomty.utilityexpansion.mixin;
-
 import boomty.utilityexpansion.item.ModItems;
-import boomty.utilityexpansion.registry.ItemRegistry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -20,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,7 +33,9 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         super(p_96550_);
     }
 
-    // user cannot remove the lorica_legs
+    // user cannot remove the corresponding part. Currently hardcoded for adding leg component only (needs change if corresponding
+    // component is not leg)
+    @SuppressWarnings("unchecked")
     @Inject(method = "slotClicked", at = @At(value = "HEAD"), cancellable = true)
     public void slotClicked(Slot p_97778_, int p_97779_, int p_97780_, ClickType p_97781_, CallbackInfo ci){
         ModItems modItems = new ModItems();
@@ -46,51 +45,24 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         AbstractContainerScreen<T> instance = ((AbstractContainerScreen<T>) (Object) this);
         if (p_97778_ != null) {
             Player player = instance.getMinecraft().player;
+            assert player != null;
             String slotItem = p_97778_.getItem().getItem().getDescriptionId();
 
             // prevent player from removing leg portion when chest item is there
             // ItemStack.matches(p_97778_.getItem(), lorica_legs)
-            if (itemMap.containsValue(slotItem) && player.getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
+            if (itemMap.containsValue(slotItem) && Objects.requireNonNull(player).getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
                 ci.cancel();
             }
             // if player is manually dragging item into armor slot
             // p_97779_ == 6 && ItemStack.matches(instance.getMenu().getCarried(), lorica_segmentata)
             else if (p_97779_ == 6 && itemMap.containsKey(instance.getMenu().getCarried().getDescriptionId())) {
-                // if player has something in the leg slot already, check to make sure there is at least 1 empty slot
-                if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
-                    // corresponding leg item
-                    ItemStack legArmor = correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId()));
-                    // save current item in leg slot
-                    ItemStack currentItem = player.getItemBySlot(EquipmentSlot.LEGS);
-                    // set leg slot with corresponding item
-                    player.setItemSlot(EquipmentSlot.LEGS, legArmor);
-                    // return saved item to player
-                    if (!correspondingItemStack.containsValue(legArmor))
-                        player.addItem(currentItem);
-                }
-                // if the player has nothing in their leg slot
-                else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY) {
-                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId())));
-                }
+                setSlots(player, correspondingItemStack.get(itemMap.get(instance.getMenu().getCarried().getDescriptionId())),
+                        player.getItemBySlot(EquipmentSlot.LEGS), correspondingItemStack);
             }
             // if player shift clicks item into slot
             // p_97781_ == ClickType.QUICK_MOVE && ItemStack.matches(p_97778_.getItem(), lorica_segmentata) && p_97779_ != 6
             else if (p_97781_ == ClickType.QUICK_MOVE && itemMap.containsKey(slotItem) && p_97779_ != 6 && Objects.requireNonNull(player).getItemBySlot(EquipmentSlot.CHEST).isEmpty()) {
-                // if player has something already in their leg slot, make sure there is at least one slot empty
-                if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
-                    ItemStack legArmor = correspondingItemStack.get(itemMap.get(slotItem));
-                    // save current item in leg slot
-                    ItemStack currentItem = player.getItemBySlot(EquipmentSlot.LEGS);
-                    // set leg slot with corresponding item
-                    player.setItemSlot(EquipmentSlot.LEGS, legArmor);
-                    // return saved item to player
-                    if (!correspondingItemStack.containsKey(legArmor.getDescriptionId()))
-                        player.addItem(currentItem);
-                }
-                // if the player has nothing in their leg slot
-                else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY){
-                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItemStack.get(itemMap.get(slotItem)));
-                }
+                setSlots(player, correspondingItemStack.get(itemMap.get(slotItem)), player.getItemBySlot(EquipmentSlot.LEGS), correspondingItemStack);
             }
             // if player removes chestplate by pressing hotbar key
             // p_97779_ == 6 && p_97781_ == ClickType.SWAP && ItemStack.matches(p_97778_.getItem(), lorica_segmentata)
@@ -102,6 +74,21 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
             else if (p_97779_ == 6 && itemMap.containsKey(slotItem)) {
                 player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
             }
+        }
+    }
+
+    private void setSlots(Player player, ItemStack correspondingComponent, ItemStack currentItem, Map<String, ItemStack> correspondingItemStack) {
+        // if player has something already in their leg slot, make sure there is at least one slot empty
+        if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
+            // set leg slot with corresponding item
+            player.setItemSlot(EquipmentSlot.LEGS, correspondingComponent);
+            // return saved item to player
+            if (!correspondingItemStack.containsKey(correspondingComponent.getDescriptionId()))
+                player.addItem(currentItem);
+        }
+        // if the player has nothing in their leg slot
+        else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY){
+            player.setItemSlot(EquipmentSlot.LEGS, correspondingComponent);
         }
     }
 

@@ -1,7 +1,9 @@
 package boomty.utilityexpansion;
 
+import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
+import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,6 +21,7 @@ public class ClientListener {
         if (!FMLEnvironment.production && !UtilityExpansion.DISABLE_IN_DEV) {
             GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
             GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
+            GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
         }
     }
 }

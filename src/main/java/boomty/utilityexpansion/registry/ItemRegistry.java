@@ -3,6 +3,8 @@ package boomty.utilityexpansion.registry;
 import boomty.utilityexpansion.UtilityExpansion;
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
+import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
+import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,8 +20,8 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 public class ItemRegistry{
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UtilityExpansion.MOD_ID);
 
-    public static final RegistryObject<RomanArmorItem> galea = ITEMS.register("galea",
-            () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
+    public static final RegistryObject<Galea> galea = ITEMS.register("galea",
+            () -> new Galea(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
 
     public static final RegistryObject<RomanArmorItem> lorica_segmentata = ITEMS.register("lorica_segmentata",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
@@ -55,6 +57,7 @@ public class ItemRegistry{
     public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
         GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
+        GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
     }
 
     public static void register(IEventBus eventBus) {
