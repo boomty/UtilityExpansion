@@ -21,21 +21,21 @@ import net.minecraftforge.fml.common.Mod;
 public class EventHandler {
     private static boolean isScutumEquipped = false;
 
-    @SubscribeEvent
-    public static void playRomanShieldPose(PlayerInteractEvent.RightClickItem event) {
-        Player player = event.getPlayer();
-        Item interactItem = event.getItemStack().getItem();
-        if (interactItem == ItemRegistry.scutum.get()) {
-            //Get the animation for that player
-            var animation = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(new ResourceLocation(UtilityExpansion.MOD_ID, "animation"));
-            if (animation != null) {
-                //You can set an animation from anywhere ON THE CLIENT
-                //Do not attempt to do this on a server, that will only fail
-
-                animation.setAnimation(new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation("utilityexpansion", "scutum_stance"))));
-                //You might use  animation.replaceAnimationWithFade(); to create fade effect instead of sudden change
-                //See javadoc for details
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public static void playRomanShieldPose(PlayerInteractEvent.RightClickItem event) {
+//        Player player = event.getPlayer();
+//        Item interactItem = event.getItemStack().getItem();
+//        if (interactItem == ItemRegistry.scutum.get()) {
+//            //Get the animation for that player
+//            var animation = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(new ResourceLocation(UtilityExpansion.MOD_ID, "animation"));
+//            if (animation != null) {
+//                //You can set an animation from anywhere ON THE CLIENT
+//                //Do not attempt to do this on a server, that will only fail
+//
+//                animation.setAnimation(new KeyframeAnimationPlayer(PlayerAnimationRegistry.getAnimation(new ResourceLocation("utilityexpansion", "scutum_stance"))));
+//                //You might use  animation.replaceAnimationWithFade(); to create fade effect instead of sudden change
+//                //See javadoc for details
+//            }
+//        }
+//    }
 }
