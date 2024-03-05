@@ -10,6 +10,6 @@ import net.minecraft.world.item.ArmorMaterial;
 public class MediumPartialHelmet extends ModArmor {
 
     public MediumPartialHelmet(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
-        super(materialIn, slot, builder, new float[]{0.5F, 0});
+        super(materialIn, slot, builder, new float[]{1.5F, 0});
     }
 }
