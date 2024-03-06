@@ -71,21 +71,15 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
             // if player is manually dragging item into armor slot
             // p_97779_ == 6 && ItemStack.matches(instance.getMenu().getCarried(), lorica_segmentata)
             else if (p_97779_ == 6 && correspondingItems.containsKey(instance.getMenu().getCarried().getItem())) {
-                Item carryItem = instance.getMenu().getCarried().getItem();
-                int legSlotId = 7;
-                int mouseButtonNum = 0;
-                player.getInventory().armor.set(EquipmentSlot.LEGS.getIndex(), new ItemStack(correspondingItems.get(carryItem)));
-                gamemode.handleInventoryMouseClick(instance.getMenu().containerId, legSlotId, mouseButtonNum, ClickType.PICKUP, player);
-
+                setSlots(player, new ItemStack(correspondingItems.get(instance.getMenu().getCarried().getItem())),
+                        player.getItemBySlot(EquipmentSlot.LEGS), correspondingItems);
             }
             // if player shift clicks item into slot, ensure that the chest slot is not taken
             // p_97781_ == ClickType.QUICK_MOVE && ItemStack.matches(p_97778_.getItem(), lorica_segmentata) && p_97779_ != 6
             else if (p_97781_ == ClickType.QUICK_MOVE && correspondingItems.containsKey(slotItem) && p_97779_ != 6
                     && Objects.requireNonNull(player).getItemBySlot(EquipmentSlot.CHEST).isEmpty()) {
-                int legSlotId = 7;
-                int mouseButtonNum = 0;
-                player.getInventory().armor.set(EquipmentSlot.LEGS.getIndex(), new ItemStack(correspondingItems.get(slotItem)));
-                gamemode.handleInventoryMouseClick(instance.getMenu().containerId, legSlotId, mouseButtonNum, ClickType.PICKUP, player);
+                setSlots(player, new ItemStack(correspondingItems.get(slotItem)),
+                        player.getItemBySlot(EquipmentSlot.LEGS), correspondingItems);
             }
             // if player removes chestplate by pressing hotbar key
             // p_97779_ == 6 && p_97781_ == ClickType.SWAP && ItemStack.matches(p_97778_.getItem(), lorica_segmentata)
@@ -100,7 +94,21 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         }
     }
 
-
+    private void setSlots(Player player, ItemStack correspondingComponent, ItemStack currentItem,
+                          Map<Item, Item> correspondingItemStack) {
+        // if player has something already in their leg slot, make sure there is at least one slot empty
+        if (numOfEmptySlots() >= 1 && player.getItemBySlot(EquipmentSlot.LEGS) != ItemStack.EMPTY) {
+            // set leg slot with corresponding item
+            player.setItemSlot(EquipmentSlot.LEGS, correspondingComponent);
+            // return saved item to player
+            if (!correspondingItemStack.containsKey(correspondingComponent.getItem()))
+                player.addItem(currentItem);
+        }
+        // if the player has nothing in their leg slot
+        else if (player.getItemBySlot(EquipmentSlot.LEGS) == ItemStack.EMPTY){
+            player.setItemSlot(EquipmentSlot.LEGS, correspondingComponent);
+        }
+    }
 
     public int numOfEmptySlots() {
         NonNullList<ItemStack> playerInventory =
