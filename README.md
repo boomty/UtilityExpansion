@@ -10,7 +10,7 @@ Utility Expansion is a mod that seeks to add a plethora of new medieval, classic
   ![image](https://github.com/boomty/UtilityExpansion/assets/114364542/3361f942-6d7a-48eb-acfd-043be2439924)
 
 - **Add new multi-component armor feature: Complete**  
-  Some armors cover more than one part of the body. We made it so that equipping a tunic will cover the legs also!
+  Some armors cover more than one part of the body. For example, equipping a tunic would not only cover the body but also part of the legs.
 
   <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG14M2tlNjl4enp2OWF0MjBheXFnb2EzYmJjZjFjMDNybnU2d2dtcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZihjqcfDa3xqKXl8Yn/giphy.gif" alt="Equip Armor Gif" width="200" />
 
