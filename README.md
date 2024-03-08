@@ -9,8 +9,7 @@ Add armors/weapons - Incomplete
 ![image](https://github.com/boomty/UtilityExpansion/assets/114364542/3361f942-6d7a-48eb-acfd-043be2439924)
 
 Add new multi-component armor feature - Complete
-
-![Equip armor gif]([https://imgur.com/a/Fh9z303](https://i.imgur.com/eVV7cKA.gif))
+![Equip Armor Gif](https://i.imgur.com/eVV7cKA.gif)
 
 Add layering for armor - Incomplete
 
