@@ -1,12 +1,15 @@
-Work in progress minecraft mod by Boomty and Forstandan:
-Aims to add new armor and weaponry into Minecraft
+# Utility Expansion Mod
 
-**Current Progress and Features Planned:**
+## Overview
+Utility Expansion is a mod that seeks to add a plethora of new medieval, classical, and bronze-age weaponry and armors into the game through our immersive armor system. This mod will introduce new mechanics into the way players acquire and utilize armor that will make combat against players and entities alike more interesting. 
+
+## Current Progress and Features
 Add armors/weapons - Incomplete
 
 ![image](https://github.com/boomty/UtilityExpansion/assets/114364542/3361f942-6d7a-48eb-acfd-043be2439924)
 
 Add new multi-component armor feature - Complete
+![Equip armor gif](https://imgur.com/a/Fh9z303)
 
 Add layering for armor - Incomplete
 
