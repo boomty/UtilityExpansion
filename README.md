@@ -12,7 +12,7 @@ Utility Expansion is a mod that seeks to add a plethora of new medieval, classic
 - **Add new multi-component armor feature: Complete**  
   Some armors cover more than one part of the body. We made it so that equipping a tunic will cover the legs also!
 
-  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG14M2tlNjl4enp2OWF0MjBheXFnb2EzYmJjZjFjMDNybnU2d2dtcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZihjqcfDa3xqKXl8Yn/giphy.gif" alt="Equip Armor Gif" width="300" />
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG14M2tlNjl4enp2OWF0MjBheXFnb2EzYmJjZjFjMDNybnU2d2dtcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZihjqcfDa3xqKXl8Yn/giphy.gif" alt="Equip Armor Gif" width="200" />
 
 - **Add layering for armor: In-Progress**   
   Players can now wear multiple armors on top of one another for different effects. For example, players may wear chainmail underneath some plate armor to provide extra protection.
