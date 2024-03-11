@@ -1,5 +1,8 @@
 package boomty.utilityexpansion.mixin;
 import boomty.utilityexpansion.item.ModItemPairs;
+import boomty.utilityexpansion.packets.PacketHandler;
+import boomty.utilityexpansion.packets.ServerboundArmorUpdatePacket;
+import boomty.utilityexpansion.util.EquipmentSlotConverter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -43,25 +46,26 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         Map<Item, Item> correspondingItems = modItems.getCorrespondingItemStack();
         Player player = this.getMinecraft().player;
 
-//        if (p_97778_ != null) {
-//            assert player != null;
-//            Item slotItem = p_97778_.getItem().getItem();
-//
-//            /*
-//            Prevent player from removing leg portion when chest item is there.
-//            Check if the leg item exists as a value within the corresponding item map and the chest slot is not empty
-//            */
-//            if (correspondingItems.containsValue(slotItem) && Objects.requireNonNull(player)
-//                    .getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
-//                System.out.println("a");
-//                ci.cancel();
-//            }
-//            // if player removes chestplate
-//            else if (p_97779_ == 6 && correspondingItems.containsKey(slotItem)) {
-//                player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
-//            }
-//
-//            // need to send packets to server side
-//        }
+        if (p_97778_ != null) {
+            assert player != null;
+            Item slotItem = p_97778_.getItem().getItem();
+
+            /*
+            Prevent player from removing leg portion when chest item is there.
+            Check if the leg item exists as a value within the corresponding item map and the chest slot is not empty
+            */
+            if (correspondingItems.containsValue(slotItem) && Objects.requireNonNull(player)
+                    .getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
+                ci.cancel();
+            }
+            // if player removes chestplate
+            else if (p_97779_ == 6 && correspondingItems.containsKey(slotItem)) {
+                player.setItemSlot(EquipmentSlot.LEGS, ItemStack.EMPTY);
+
+                PacketHandler.INSTANCE.sendToServer(
+                        new ServerboundArmorUpdatePacket(ItemStack.EMPTY, EquipmentSlotConverter
+                                .getSlotIdFromEquipmentSlot(EquipmentSlot.LEGS)));
+            }
+        }
     }
 }

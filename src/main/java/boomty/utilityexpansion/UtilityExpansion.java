@@ -5,6 +5,7 @@ import boomty.utilityexpansion.client.model.armor.curios.LoricaSegmentataModel;
 import boomty.utilityexpansion.client.model.armor.curios.TunicUpperModel;
 import boomty.utilityexpansion.client.renderer.armor.curios.LoricaSegmentataRenderer;
 import boomty.utilityexpansion.client.renderer.armor.curios.TunicUpperRenderer;
+import boomty.utilityexpansion.packets.PacketHandler;
 import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.ModItemProperties;
 import com.mojang.logging.LogUtils;
@@ -79,6 +80,7 @@ public class UtilityExpansion {
         // Some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        event.enqueueWork(PacketHandler::init);
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

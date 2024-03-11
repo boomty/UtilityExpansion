@@ -1,14 +1,15 @@
 package boomty.utilityexpansion.mixin;
 
 import boomty.utilityexpansion.item.ModItemPairs;
-import boomty.utilityexpansion.registry.ItemRegistry;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,10 +34,35 @@ public abstract class PlayerMixin extends LivingEntity {
 
         if (correspondingItems.containsKey(p_36162_.getItem())) {
             if (!legSlotItemStack.isEmpty() && legSlotItemStack.getItem() != correspondingItems.get(p_36162_.getItem())) {
-                player.addItem(legSlotItemStack);
-                System.out.println("b");
+                if (numOfEmptySlots() >= 1) {
+                    player.addItem(legSlotItemStack);
+                }
+                else {
+                    // if player's inventory is full drop the item on the ground
+                    Level level = player.getLevel();
+                    double x = player.getX();
+                    double y = player.getY();
+                    double z = player.getZ();
+
+                    ItemEntity itemEntity = new ItemEntity(level, x, y, z, legSlotItemStack);
+
+                    level.addFreshEntity(itemEntity);
+                }
             }
             player.setItemSlot(EquipmentSlot.LEGS, new ItemStack(correspondingItems.get(p_36162_.getItem())));
         }
+    }
+
+    public int numOfEmptySlots() {
+        NonNullList<ItemStack> playerInventory = ((Player) (Object) this).getInventory().items;
+        int numOfEmptySlots = 0;
+
+        for (ItemStack item : playerInventory) {
+            if (ItemStack.matches(new ItemStack(Items.AIR), item)) {
+                numOfEmptySlots++;
+            }
+        }
+
+        return numOfEmptySlots;
     }
 }
