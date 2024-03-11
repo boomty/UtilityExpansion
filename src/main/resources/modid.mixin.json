@@ -3,10 +3,11 @@
   "package": "boomty.utilityexpansion.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "AbstractContainerScreenMixin"
+    "AbstractContainerScreenMixin",
+    "MultiPlayerGameModeMixin",
+    "PlayerMixin"
   ],
   "client": [
-    "AbstractContainerScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

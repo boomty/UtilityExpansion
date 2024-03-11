@@ -8,12 +8,12 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class GaleaTypeHHelmetModel extends AnimatedGeoModel<Galea> {
     @Override
     public ResourceLocation getModelLocation(Galea object) {
-        return new ResourceLocation(UtilityExpansion.MOD_ID, "geo/galea_type_h_5.geo.json");
+        return new ResourceLocation(UtilityExpansion.MOD_ID, "geo/galea_type_h_8.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureLocation(Galea object) {
-        return new ResourceLocation(UtilityExpansion.MOD_ID, "textures/item/galea_type_h_texture_3.png");
+        return new ResourceLocation(UtilityExpansion.MOD_ID, "textures/item/galea_type_h_texture_4.png");
     }
 
     @Override
