@@ -10,6 +10,10 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
+/**
+ * Packet that handles when armor pairs are being equipped or unequipped.
+ */
+
 public class ServerboundArmorUpdatePacket {
     public final ItemStack itemStack;
     public final int slotId;
@@ -27,6 +31,11 @@ public class ServerboundArmorUpdatePacket {
         buffer.writeInt(slotId);
     }
 
+    /*
+    Method: handle
+    Return: boolean
+    Purpose: Update player inventory on server side based on packet info
+     */
     @SuppressWarnings("ConstantConditions")
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         final var success = new AtomicBoolean(false);

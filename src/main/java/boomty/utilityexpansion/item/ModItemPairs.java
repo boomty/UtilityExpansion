@@ -42,9 +42,9 @@ public class ModItemPairs {
     // change correspondingItemStack to store <Item, Item> instead of <String, ItemStack>
     // delete itemPairs
     private void instantiateMaps() {
-        correspondingItemStack.put(new ItemStack(ItemRegistry.lorica_segmentata.get()).getItem(),
-                new ItemStack(ItemRegistry.lorica_legs.get()).getItem());
-        correspondingItemStack.put(new ItemStack(ItemRegistry.tunic.get()).getItem(),
-                new ItemStack(ItemRegistry.tunic_legs.get()).getItem());
+        correspondingItemStack.put(ItemRegistry.lorica_segmentata.get(),
+                ItemRegistry.lorica_legs.get());
+        correspondingItemStack.put(ItemRegistry.tunic.get(),
+                ItemRegistry.tunic_legs.get());
     }
 }

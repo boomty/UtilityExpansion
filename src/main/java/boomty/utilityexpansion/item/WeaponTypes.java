@@ -1,5 +1,8 @@
 package boomty.utilityexpansion.item;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,13 +10,11 @@ import java.util.Set;
  * Weapon types for damage calculation
  */
 public class WeaponTypes {
-    private final Set<String> swords;
-    private final Set<String> bluntWeapons;
+    private final Set<Item> bluntWeapons;
     private static WeaponTypes instance;
 
     // singleton pattern, access through getInstance()
     private WeaponTypes() {
-        swords = new HashSet<>();
         bluntWeapons = new HashSet<>();
         instantiateSets();
     }
@@ -32,44 +33,37 @@ public class WeaponTypes {
     }
 
     private void instantiateSets() {
-        // add swords into sword set
-        swords.add("item.utilityexpansion.gladius");
-        swords.add("item.utilityexpansion.spatha");
-
-        swords.add("item.minecraft.netherite_sword");
-        swords.add("item.minecraft.diamond_sword");
-        swords.add("item.minecraft.golden_sword");
-        swords.add("item.minecraft.iron_sword");
-        swords.add("item.minecraft.stone_sword");
-        swords.add("item.minecraft.wooden_sword");
-
         // add blunt weapons into blunt weapon set
-        bluntWeapons.add("item.minecraft.netherite_pickaxe");
-        bluntWeapons.add("item.minecraft.diamond_pickaxe");
-        bluntWeapons.add("item.minecraft.golden_pickaxe");
-        bluntWeapons.add("item.minecraft.iron_pickaxe");
-        bluntWeapons.add("item.minecraft.stone_pickaxe");
-        bluntWeapons.add("item.minecraft.wooden_pickaxe");
+        bluntWeapons.add(Items.NETHERITE_PICKAXE);
+        bluntWeapons.add(Items.DIAMOND_PICKAXE);
+        bluntWeapons.add(Items.GOLDEN_PICKAXE);
+        bluntWeapons.add(Items.IRON_PICKAXE);
+        bluntWeapons.add(Items.STONE_PICKAXE);
+        bluntWeapons.add(Items.WOODEN_PICKAXE);
 
-        bluntWeapons.add("item.minecraft.netherite_axe");
-        bluntWeapons.add("item.minecraft.diamond_axe");
-        bluntWeapons.add("item.minecraft.golden_axe");
-        bluntWeapons.add("item.minecraft.iron_axe");
-        bluntWeapons.add("item.minecraft.stone_axe");
-        bluntWeapons.add("item.minecraft.wooden_axe");
+        bluntWeapons.add(Items.NETHERITE_AXE);
+        bluntWeapons.add(Items.DIAMOND_AXE);
+        bluntWeapons.add(Items.GOLDEN_AXE);
+        bluntWeapons.add(Items.IRON_AXE);
+        bluntWeapons.add(Items.STONE_AXE);
+        bluntWeapons.add(Items.WOODEN_AXE);
 
-        bluntWeapons.add("item.minecraft.netherite_hoe");
-        bluntWeapons.add("item.minecraft.diamond_hoe");
-        bluntWeapons.add("item.minecraft.golden_hoe");
-        bluntWeapons.add("item.minecraft.iron_hoe");
-        bluntWeapons.add("item.minecraft.stone_hoe");
-        bluntWeapons.add("item.minecraft.wooden_hoe");
+        bluntWeapons.add(Items.NETHERITE_HOE);
+        bluntWeapons.add(Items.DIAMOND_HOE);
+        bluntWeapons.add(Items.GOLDEN_HOE);
+        bluntWeapons.add(Items.IRON_HOE);
+        bluntWeapons.add(Items.STONE_HOE);
+        bluntWeapons.add(Items.WOODEN_HOE);
 
-        bluntWeapons.add("item.minecraft.netherite_shovel");
-        bluntWeapons.add("item.minecraft.diamond_shovel");
-        bluntWeapons.add("item.minecraft.golden_shovel");
-        bluntWeapons.add("item.minecraft.iron_shovel");
-        bluntWeapons.add("item.minecraft.stone_shovel");
-        bluntWeapons.add("item.minecraft.wooden_shovel");
+        bluntWeapons.add(Items.NETHERITE_SHOVEL);
+        bluntWeapons.add(Items.DIAMOND_SHOVEL);
+        bluntWeapons.add(Items.GOLDEN_SHOVEL);
+        bluntWeapons.add(Items.IRON_SHOVEL);
+        bluntWeapons.add(Items.STONE_SHOVEL);
+        bluntWeapons.add(Items.WOODEN_SHOVEL);
+    }
+
+    public Set<Item> getBluntWeapons() {
+        return bluntWeapons;
     }
 }

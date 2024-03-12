@@ -3,6 +3,11 @@ package boomty.utilityexpansion.util;
 import net.minecraft.world.entity.EquipmentSlot;
 
 public class SlotIdConverter {
+    /*
+    Method: getEquipmentSlotFromSlotId
+    Returns: EquipmentSlot
+    Purpose: Convert slotId into equipmentSlot
+     */
     public static EquipmentSlot getEquipmentSlotFromSlotId(int slotId) {
         if (slotId == 5) {
             return EquipmentSlot.HEAD;

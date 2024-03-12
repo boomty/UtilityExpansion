@@ -24,7 +24,12 @@ public abstract class PlayerMixin extends LivingEntity {
         super(p_20966_, p_20967_);
     }
 
-    // when player equips lorica or tunic the leg section will be equipped as well
+    /*
+    Method: set
+    Return: void
+    Purpose: When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
+    case when a player right-clicks a piece of armor outside the inventory ui.
+     */
     @Inject(method = "setItemSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/NonNullList;set(ILjava/lang/Object;)Ljava/lang/Object;", ordinal = 2))
     public void set(EquipmentSlot p_36161_, ItemStack p_36162_, CallbackInfo ci) {
         ModItemPairs modItems = ModItemPairs.getInstance();

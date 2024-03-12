@@ -17,8 +17,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
+/**
+ * Equips corresponding part when the main part is equipped. If there is already something
+ * in the leg slot, it will be removed and added into the player's inventory.
+ */
 @Mixin(MultiPlayerGameMode.class)
 public abstract class MultiPlayerGameModeMixin {
+    /*
+    Method: addCorrespondingPart
+    Returns: void
+    Purpose: When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
+    case when a player is in the player inventory gui. Only applies in survival.
+     */
     @Inject(method = "handleInventoryMouseClick", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;clicked(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
     public void addCorrespondingPart(int p_171800_, int p_171801_, int p_171802_, ClickType p_171803_, Player p_171804_, CallbackInfo ci) {
         ModItemPairs modItems = ModItemPairs.getInstance();

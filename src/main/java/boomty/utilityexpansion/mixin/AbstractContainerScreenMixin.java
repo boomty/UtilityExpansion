@@ -24,11 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * Part of the multi-part equipment system. Prevents user from removing lower part of a garment
- * when its corresponding part is still equipped and equips the corresponding part when the other
- * is equipped. (Only applies in survival)
- */
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin <T extends AbstractContainerMenu> extends Screen implements MenuAccess<T> {
     @Shadow public abstract T getMenu();
@@ -36,8 +31,12 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
         super(p_96550_);
     }
 
-    // user cannot remove the corresponding part. Currently hardcoded for adding leg component only (needs change if corresponding
-    // component is not leg)
+    /*
+    Method: slotClicked
+    Returns: void
+    Purpose: Prevents player from removing the corresponding part when the main part is equipped and removes the
+    corresponding part when the main part is removed. Only applies in survival.
+     */
     @Inject(method = "slotClicked", at = @At(value = "HEAD"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     public void slotClicked(Slot p_97778_, int p_97779_, int p_97780_, ClickType p_97781_, CallbackInfo ci){
         // p_97779_ is slotId
@@ -50,10 +49,7 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
             assert player != null;
             Item slotItem = p_97778_.getItem().getItem();
 
-            /*
-            Prevent player from removing leg portion when chest item is there.
-            Check if the leg item exists as a value within the corresponding item map and the chest slot is not empty
-            */
+            // Prevent player from removing leg portion when chest item is there.
             if (correspondingItems.containsValue(slotItem) && Objects.requireNonNull(player)
                     .getItemBySlot(EquipmentSlot.CHEST) != ItemStack.EMPTY) {
                 ci.cancel();
