@@ -1,8 +1,10 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
+import boomty.utilityexpansion.client.renderer.armor.LoricaSegmentataRenderer;
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
+import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
 import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
@@ -20,6 +22,7 @@ public class ClientListener {
     public static void registerArmorRenderers(final EntityRenderersEvent.AddLayers event) {
         if (!FMLEnvironment.production && !UtilityExpansion.DISABLE_IN_DEV) {
             GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
+            GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, () -> new LoricaSegmentataRenderer());
             GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
             GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
         }

@@ -1,7 +1,12 @@
 package boomty.utilityexpansion.mixin;
 
+import boomty.utilityexpansion.item.ArmorTypes.ModArmor;
+import boomty.utilityexpansion.item.BluntWeapon;
 import boomty.utilityexpansion.item.ModItemPairs;
+import boomty.utilityexpansion.item.WeaponTypes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,10 +15,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
@@ -22,6 +29,86 @@ import java.util.Map;
 public abstract class PlayerMixin extends LivingEntity {
     protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
+    }
+
+    // keep track of damage after reduction
+    private float resultantDamage = 0;
+
+    /*
+    Method: calculateDamageReduction
+    Returns: void
+    Purpose: Calculate modded damage reduction based on its armor type. Armor type decides how much resistance it has to
+    swords, blunt weapons, and projectiles.
+     */
+    @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F", shift = At.Shift.BEFORE))
+    public void calculateDamageReduction(DamageSource p_21240_, float p_21241_, CallbackInfo ci) {
+        if (p_21240_ instanceof EntityDamageSource entityDamageSource) {
+            if (entityDamageSource.getEntity() instanceof LivingEntity livingEntity) {
+                float maxReduction = 10;
+
+                Item attackWeapon = livingEntity.getItemBySlot(EquipmentSlot.MAINHAND).getItem();
+                LivingEntity recipient = ((LivingEntity) (Object) this);
+
+                Item helmetItem = recipient.getItemBySlot(EquipmentSlot.HEAD).getItem();
+                Item chestItem = recipient.getItemBySlot(EquipmentSlot.CHEST).getItem();
+                Item legItem = recipient.getItemBySlot(EquipmentSlot.LEGS).getItem();
+                Item footItem = recipient.getItemBySlot(EquipmentSlot.FEET).getItem();
+
+                float totalReduction = 0;
+
+                if (attackWeapon instanceof SwordItem) {
+                    totalReduction = getTotalReduction(0, helmetItem, chestItem, legItem, footItem);
+                }
+                else if (attackWeapon instanceof BluntWeapon) {
+                    totalReduction = getTotalReduction(1, helmetItem, chestItem, legItem, footItem);
+                }
+                else if (WeaponTypes.getInstance().getBluntWeapons().contains(attackWeapon)) {
+                    totalReduction = getTotalReduction(1, helmetItem, chestItem, legItem, footItem);
+                }
+
+                // reduction points are out of 10 (max value is 10)
+                if (totalReduction > maxReduction) {
+                    totalReduction = maxReduction;
+                }
+
+                // totalReduction/maxReduction returns the percentage reduction the armor has to a weapon
+                resultantDamage = p_21241_ - (p_21241_ * totalReduction/maxReduction);
+            }
+        }
+    }
+
+    /*
+    Method: injectDamageArgument
+    Returns: float
+    Purpose: Inject resultant damage into getDamageAfterAbsorb(DamageSource, float) so that the damage reduction is used.
+     */
+    @ModifyArg(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"), index = 1)
+    private float injectDamageArgument(float p_21163_) {
+        return resultantDamage;
+    }
+
+    /*
+    Method: getTotalReduction
+    Returns: float
+    Purpose: Adds up the total resistance points to the weapon used by attacking entity.
+     */
+    private float getTotalReduction(int index, Item helmetItem, Item chestItem, Item legItem, Item footItem) {
+        float totalReduction = 0;
+
+        if (helmetItem instanceof ModArmor modHelmet) {
+            totalReduction += modHelmet.getWeaponResistance()[index];
+        }
+        if (chestItem instanceof ModArmor modChestArmor) {
+            totalReduction += modChestArmor.getWeaponResistance()[index];
+        }
+        if (legItem instanceof ModArmor modLegArmor) {
+            totalReduction += modLegArmor.getWeaponResistance()[index];
+        }
+        if (footItem instanceof ModArmor modFootArmor) {
+            totalReduction += modFootArmor.getWeaponResistance()[index];
+        }
+
+        return totalReduction;
     }
 
     /*

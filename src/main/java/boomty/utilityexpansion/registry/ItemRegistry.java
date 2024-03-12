@@ -1,9 +1,11 @@
 package boomty.utilityexpansion.registry;
 
 import boomty.utilityexpansion.UtilityExpansion;
+import boomty.utilityexpansion.client.renderer.armor.LoricaSegmentataRenderer;
 import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
 import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
+import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
 import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
@@ -19,12 +21,11 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class ItemRegistry{
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UtilityExpansion.MOD_ID);
-
     public static final RegistryObject<Galea> galea = ITEMS.register("galea",
             () -> new Galea(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
 
-    public static final RegistryObject<RomanArmorItem> lorica_segmentata = ITEMS.register("lorica_segmentata",
-            () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
+    public static final RegistryObject<LoricaSegmentata> lorica_segmentata = ITEMS.register("lorica_segmentata",
+            () -> new LoricaSegmentata(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
     public static final RegistryObject<RomanArmorItem> lorica_legs = ITEMS.register("lorica_legs",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.LEGS, new Item.Properties()));
     public static final RegistryObject<RomanArmorItem> caligae = ITEMS.register("caligae",
@@ -56,6 +57,7 @@ public class ItemRegistry{
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
+        GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, () -> new LoricaSegmentataRenderer());
         GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
         GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
     }
