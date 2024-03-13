@@ -20,4 +20,6 @@ Utility Expansion is a mod that seeks to add a plethora of new medieval, classic
 - **Add new armor point system: In-Progress**   
   Different armors have different strengths and weaknesses against certain weaponry. 
 
+  ![armor_tag](https://github.com/boomty/UtilityExpansion/assets/114364542/cf3deca7-9c6e-41a9-8bc1-dc0fa41dd119)
+
 - **Add survival compatibility (crafting recipes, new blocks/resources): In-Progress**  
