@@ -4,6 +4,7 @@ import boomty.utilityexpansion.UtilityExpansion;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -13,10 +14,12 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.item.GeoArmorItem;
 
+import java.awt.*;
+
 /**
  * Mod armor all armors extend this class. Adds attribute for specific weapon protection.
  */
-public class ModArmor extends GeoArmorItem implements IAnimatable{
+public abstract class ModArmor extends GeoArmorItem implements IAnimatable{
     private AnimationFactory factory = new AnimationFactory(this);
     // special weapon type resistances: 1. sword; 2. blunt
     private float[] weaponResistance;
@@ -45,4 +48,5 @@ public class ModArmor extends GeoArmorItem implements IAnimatable{
     public float[] getWeaponResistance() {
         return weaponResistance;
     }
+
 }
