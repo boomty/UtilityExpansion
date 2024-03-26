@@ -24,9 +24,12 @@ public abstract class ModArmor extends GeoArmorItem implements IAnimatable{
     // special weapon type resistances: 1. sword; 2. blunt
     private float[] weaponResistance;
 
+    protected boolean isArrowResistant;
+
     public ModArmor(ArmorMaterial materialIn, EquipmentSlot slot, Item.Properties builder, float[] weaponResistance) {
         super(materialIn, slot, builder.tab(UtilityExpansion.utilexpanseitemgroup));
         this.weaponResistance = weaponResistance;
+        this.isArrowResistant = false;
     }
 
     @Override
@@ -49,4 +52,7 @@ public abstract class ModArmor extends GeoArmorItem implements IAnimatable{
         return weaponResistance;
     }
 
+    public boolean isArrowResistant() {
+        return isArrowResistant;
+    }
 }

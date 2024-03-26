@@ -24,6 +24,7 @@ public class HeavyPlateArmorItem extends ModArmor {
 
     public HeavyPlateArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
         super(materialIn, slot, builder, new float[]{8F, 4F});
+        isArrowResistant = true;
     }
 
     @Override

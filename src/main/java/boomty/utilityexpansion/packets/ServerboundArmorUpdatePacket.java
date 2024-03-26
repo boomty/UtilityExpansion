@@ -53,5 +53,4 @@ public class ServerboundArmorUpdatePacket {
         ctx.get().setPacketHandled(true);
         return success.get();
     }
-
 }
