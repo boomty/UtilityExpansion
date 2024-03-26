@@ -17,7 +17,9 @@ Utility Expansion is a mod that seeks to add a plethora of new medieval, classic
 - **Add layering for armor: In-Progress**   
   Players can now wear multiple armors on top of one another for different effects. For example, players may wear chainmail underneath some plate armor to provide extra protection.
 
-- **Add new armor point system: In-Progress**   
+- **Add new armor point system: Complete**   
   Different armors have different strengths and weaknesses against certain weaponry. 
+
+  ![armor_tag](https://github.com/boomty/UtilityExpansion/assets/114364542/cf3deca7-9c6e-41a9-8bc1-dc0fa41dd119)
 
 - **Add survival compatibility (crafting recipes, new blocks/resources): In-Progress**  
