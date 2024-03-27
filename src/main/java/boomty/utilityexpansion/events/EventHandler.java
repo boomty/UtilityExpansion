@@ -133,13 +133,13 @@ public class EventHandler {
         if (perpendicularYawDeg < 45) {
             perpendicularYawDeg = 90 - perpendicularYawDeg;
         }
-        double perpendicularYawRad = Math.toRadians(perpendicularYawDeg % 90);
+        double perpendicularYawRad = Math.toRadians(perpendicularYawDeg);
 
         // calculate two x,y coordinates
         double minX = Math.abs(entityPos.x) - torsoRadius * Math.cos(perpendicularYawRad);
-        double minZ = Math.abs(entityPos.z) + torsoRadius * Math.sin(perpendicularYawRad);
+        double minZ = Math.abs(entityPos.z) - torsoRadius * Math.sin(perpendicularYawRad);
         double maxX = Math.abs(entityPos.x) + torsoRadius * Math.cos(perpendicularYawRad);
-        double maxZ = Math.abs(entityPos.z) - torsoRadius * Math.sin(perpendicularYawRad);
+        double maxZ = Math.abs(entityPos.z) + torsoRadius * Math.sin(perpendicularYawRad);
 
         // make coordinates negative if necessary
         if (entityPos.x < 0) {
