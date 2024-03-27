@@ -92,53 +92,47 @@ public class EventHandler {
                 if (event.getEntity() instanceof LivingEntity entity) {
                     // just calculate the position of the arrow relative to the player
                     Vec3 arrowPos = arrow.position();
-                    Vec3 playerPos = entity.position();
-                    System.out.println("Player pos x: " + playerPos.x + " y: " + playerPos.y + " z: " + playerPos.z);
-                    System.out.println("Arrow pos x: " + arrowPos.x + " y: " + arrowPos.y + " z: " + arrowPos.z);
-
-                    Vec2 entityDirection = entity.getRotationVector();
-                    Vec2 perpendicularVec = new Vec2(-entityDirection.y, entityDirection.x).normalized();
-
-                    System.out.println("Vec x: " + perpendicularVec.x + "Vec y: " + perpendicularVec.y);
-
                     Vec3 entityPos = entity.position();
 
-                    double minX, minY, maxX, maxY;
+                    System.out.println("Entity yaw: " + entity.yBodyRot % 360.0);
+                    System.out.println("Entity pos x: " + entityPos.x + " pos y: " + entityPos.z);
+                    System.out.println("Arrow pos x: " + arrowPos.x + " pos y: " + arrowPos.z);
 
-                    double torsoRadius = 0.2813;
-                    if (entityPos.x < 0) {
-                        minX = -entityPos.x - torsoRadius * perpendicularVec.x;
-                        maxX = -entityPos.x + torsoRadius * perpendicularVec.x;
+                    Line lineSeg = getShoulderAxis(entity);
 
-                        minX = -minX;
-                        maxX = -maxX;
-                    } else {
-                        minX = entityPos.x - torsoRadius * perpendicularVec.x;
-                        maxX = entityPos.x + torsoRadius * perpendicularVec.x;
-                    }
-
-                    if (entityPos.z < 0) {
-                        minY = -entityPos.z - torsoRadius * perpendicularVec.y;
-                        maxY = -entityPos.z + torsoRadius * perpendicularVec.y;
-
-                        minY = -minY;
-                        maxY = -maxY;
-                    } else {
-                        minY = entityPos.z - torsoRadius * perpendicularVec.y;
-                        maxY = entityPos.z + torsoRadius * perpendicularVec.y;
-                    }
-
-                    Line entityLine = new Line(minX, minY, maxX, maxY);
-
-                    System.out.println("minX: " + minX + " minZ: " + minY + " maxX: " + maxX + " maxZ: " + maxY);
-                    System.out.println("line slope: " + entityLine.getSlope());
-                    System.out.println("intersection point: " + (entityLine.getSlope() * arrowPos.x + entityLine.getIntercept()));
-                    if (arrowPos.y > playerPos.y + 0.61875) {
+                    if (arrowPos.y > entityPos.y + 0.61875) {
                         event.setCanceled(true);
                     }
                 }
             }
         }
+    }
+    private static Line getShoulderAxis(LivingEntity entity) {
+        final double torsoRadius = 0.2813;
+        Vec3 entityPos = entity.position();
+
+        // get the angle the torso is facing at
+        float perpendicularYawDeg = entity.yBodyRot + 90;
+        double perpendicularYawRad = (perpendicularYawDeg * Math.PI)/180;
+
+        // calculate two x,y coordinates
+        double minX = -entityPos.x - torsoRadius;
+        double minY = -entityPos.z - torsoRadius * Math.tan(perpendicularYawRad);
+        double maxX = entityPos.x + torsoRadius;
+        double maxY = entityPos.z + torsoRadius * Math.tan(perpendicularYawRad);
+
+        // make coordinates negative if necessary
+        if (entityPos.x < 0) {
+            minX = -minX;
+            minY = -minY;
+        }
+        if (entityPos.y < 0) {
+            maxX = -maxX;
+            maxY = -maxY;
+        }
+
+        System.out.println("minX: " + minX + " minY: " + minY + " maxX: " + maxX + " maxY: " + maxY);
+        return new Line(minX, minY, maxX, maxY);
     }
 
 //    private int arrowDamagedPart(AbstractArrow arrow, LivingEntity entity) {
