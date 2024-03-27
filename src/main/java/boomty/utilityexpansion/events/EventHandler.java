@@ -94,7 +94,6 @@ public class EventHandler {
                     Vec3 arrowPos = arrow.position();
                     Vec3 entityPos = entity.position();
 
-                    System.out.println("Entity yaw: " + entity.yBodyRot % 360.0);
                     System.out.println("Entity pos x: " + entityPos.x + " pos y: " + entityPos.z);
                     System.out.println("Arrow pos x: " + arrowPos.x + " pos y: " + arrowPos.z);
 
@@ -111,28 +110,52 @@ public class EventHandler {
         final double torsoRadius = 0.2813;
         Vec3 entityPos = entity.position();
 
+        // get original angle
+        float entityYawDeg = entity.yBodyRot;
+        if (entityYawDeg < 360) {
+            entityYawDeg %= 360;
+        }
+        if (entityYawDeg < 0) {
+            entityYawDeg += 360;
+        }
+
         // get the angle the torso is facing at
-        float perpendicularYawDeg = entity.yBodyRot + 90;
-        double perpendicularYawRad = (perpendicularYawDeg * Math.PI)/180;
+        float perpendicularYawDeg = (entityYawDeg + 90) % 360;
+        // narrow angles down to the first and forth quadrants only
+        if (perpendicularYawDeg > 180) {
+            perpendicularYawDeg = (perpendicularYawDeg + 180) % 360;
+        }
+        // if the angle is in the second quadrant convert angle into range [0, 90]
+        if (perpendicularYawDeg > 90) {
+            perpendicularYawDeg -= 90;
+        }
+        // if the angle is less than 45 deg use the complementary angle
+        if (perpendicularYawDeg < 45) {
+            perpendicularYawDeg = 90 - perpendicularYawDeg;
+        }
+        double perpendicularYawRad = Math.toRadians(perpendicularYawDeg % 90);
 
         // calculate two x,y coordinates
-        double minX = -entityPos.x - torsoRadius;
-        double minY = -entityPos.z - torsoRadius * Math.tan(perpendicularYawRad);
-        double maxX = entityPos.x + torsoRadius;
-        double maxY = entityPos.z + torsoRadius * Math.tan(perpendicularYawRad);
+        double minX = Math.abs(entityPos.x) - torsoRadius * Math.cos(perpendicularYawRad);
+        double minZ = Math.abs(entityPos.z) + torsoRadius * Math.sin(perpendicularYawRad);
+        double maxX = Math.abs(entityPos.x) + torsoRadius * Math.cos(perpendicularYawRad);
+        double maxZ = Math.abs(entityPos.z) - torsoRadius * Math.sin(perpendicularYawRad);
 
         // make coordinates negative if necessary
         if (entityPos.x < 0) {
             minX = -minX;
-            minY = -minY;
-        }
-        if (entityPos.y < 0) {
             maxX = -maxX;
-            maxY = -maxY;
+        }
+        if (entityPos.z < 0) {
+            minZ = -minZ;
+            maxZ = -maxZ;
         }
 
-        System.out.println("minX: " + minX + " minY: " + minY + " maxX: " + maxX + " maxY: " + maxY);
-        return new Line(minX, minY, maxX, maxY);
+        System.out.println("Entity yaw: " + entityYawDeg);
+        System.out.println("Perpendicular yaw: " + perpendicularYawDeg);
+        System.out.println("minX: " + minX + " minZ: " + minZ + " maxX: " + maxX + " maxZ: " + maxZ);
+        System.out.println();
+        return new Line(minX, minZ, maxX, maxZ);
     }
 
 //    private int arrowDamagedPart(AbstractArrow arrow, LivingEntity entity) {
