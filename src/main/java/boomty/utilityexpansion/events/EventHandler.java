@@ -121,35 +121,36 @@ public class EventHandler {
 
         // get the angle the torso is facing at
         float perpendicularYawDeg = (entityYawDeg + 90) % 360;
-        // narrow angles down to the first and forth quadrants only
+        System.out.println(perpendicularYawDeg);
+        // narrow angles down to the second and third quadrants only
         if (perpendicularYawDeg > 180) {
             perpendicularYawDeg = (perpendicularYawDeg + 180) % 360;
         }
-        // if the angle is in the second quadrant convert angle into range [0, 90]
-        if (perpendicularYawDeg > 90) {
-            perpendicularYawDeg -= 90;
-        }
-        // if the angle is less than 45 deg use the complementary angle
-        if (perpendicularYawDeg < 45) {
+        System.out.println(perpendicularYawDeg);
+        // if the angle is less than 90 deg use the complementary angle
+        if (perpendicularYawDeg < 90) {
             perpendicularYawDeg = 90 - perpendicularYawDeg;
+        }
+        else if (perpendicularYawDeg > 90) {
+            perpendicularYawDeg = perpendicularYawDeg - 90;
         }
         double perpendicularYawRad = Math.toRadians(perpendicularYawDeg);
 
-        // calculate two x,y coordinates
-        double minX = Math.abs(entityPos.x) - torsoRadius * Math.cos(perpendicularYawRad);
-        double minZ = Math.abs(entityPos.z) - torsoRadius * Math.sin(perpendicularYawRad);
-        double maxX = Math.abs(entityPos.x) + torsoRadius * Math.cos(perpendicularYawRad);
-        double maxZ = Math.abs(entityPos.z) + torsoRadius * Math.sin(perpendicularYawRad);
+        double horizontalComponent = torsoRadius * Math.cos(perpendicularYawRad);
+        double verticalComponent = torsoRadius * Math.sin(perpendicularYawRad);
 
-        // make coordinates negative if necessary
-        if (entityPos.x < 0) {
-            minX = -minX;
-            maxX = -maxX;
+        horizontalComponent = -horizontalComponent;
+
+        if (!(perpendicularYawDeg < 90)) {
+            verticalComponent = -verticalComponent;
         }
-        if (entityPos.z < 0) {
-            minZ = -minZ;
-            maxZ = -maxZ;
-        }
+
+        // calculate two x,y coordinates
+        double minX = entityPos.x + horizontalComponent;
+        double minZ = entityPos.z + verticalComponent;
+
+        double maxX = entityPos.x - horizontalComponent;
+        double maxZ = entityPos.z - verticalComponent;
 
         System.out.println("Entity yaw: " + entityYawDeg);
         System.out.println("Perpendicular yaw: " + perpendicularYawDeg);
