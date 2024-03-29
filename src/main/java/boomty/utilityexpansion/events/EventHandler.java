@@ -98,6 +98,7 @@ public class EventHandler {
                     System.out.println("Arrow pos x: " + arrowPos.x + " pos y: " + arrowPos.z);
 
                     Line lineSeg = getShoulderAxis(entity);
+                    Line shiftedLine = shiftLine(lineSeg, entity, arrow);
 
                     if (arrowPos.y > entityPos.y + 0.61875) {
                         event.setCanceled(true);
@@ -106,39 +107,54 @@ public class EventHandler {
             }
         }
     }
-    private static Line getShoulderAxis(LivingEntity entity) {
-        final double torsoRadius = 0.2813;
-        Vec3 entityPos = entity.position();
 
-        // get original angle
+    private static float convertAngle(LivingEntity entity) {
         float entityYawDeg = entity.yBodyRot;
-        if (entityYawDeg < 360) {
+        if (entityYawDeg > 360) {
             entityYawDeg %= 360;
         }
         if (entityYawDeg < 0) {
             entityYawDeg += 360;
         }
 
-        // get the angle the torso is facing at
-        float perpendicularYawDeg = (entityYawDeg + 90) % 360;
-        System.out.println(perpendicularYawDeg);
+        return entityYawDeg;
+    }
+
+    private static float getEquivalentAngle(float angle) {
         // narrow angles down to the second and third quadrants only
-        if (perpendicularYawDeg > 180) {
-            perpendicularYawDeg = (perpendicularYawDeg + 180) % 360;
+        if (angle > 180) {
+            angle = (angle + 180) % 360;
         }
-        System.out.println(perpendicularYawDeg);
+        System.out.println(angle);
         // if the angle is less than 90 deg use the complementary angle
-        if (perpendicularYawDeg < 90) {
-            perpendicularYawDeg = 90 - perpendicularYawDeg;
+        if (angle < 90) {
+            angle = 90 - angle;
         }
-        else if (perpendicularYawDeg > 90) {
-            perpendicularYawDeg = perpendicularYawDeg - 90;
+        else if (angle > 90) {
+            angle = angle - 90;
         }
+
+        return angle;
+    }
+
+    private static Line getShoulderAxis(LivingEntity entity) {
+        final double torsoRadius = 0.2813;
+        Vec3 entityPos = entity.position();
+
+        // get original angle
+        float entityYawDeg = convertAngle(entity);
+
+        // get the angle of the line that goes across the torso (perpendicular angle)
+        float perpendicularYawDeg = (entityYawDeg + 90) % 360;
+
+        // get equivalent angle that is easier to work with
+        perpendicularYawDeg = getEquivalentAngle(perpendicularYawDeg);
         double perpendicularYawRad = Math.toRadians(perpendicularYawDeg);
 
         double horizontalComponent = torsoRadius * Math.cos(perpendicularYawRad);
         double verticalComponent = torsoRadius * Math.sin(perpendicularYawRad);
 
+        // apply correct sign to the components based on angle
         horizontalComponent = -horizontalComponent;
 
         if (!(perpendicularYawDeg < 90)) {
@@ -154,7 +170,57 @@ public class EventHandler {
 
         System.out.println("Entity yaw: " + entityYawDeg);
         System.out.println("Perpendicular yaw: " + perpendicularYawDeg);
-        System.out.println("minX: " + minX + " minZ: " + minZ + " maxX: " + maxX + " maxZ: " + maxZ);
+        System.out.println("Original line minX: " + minX + " minZ: " + minZ + " maxX: " + maxX + " maxZ: " + maxZ);
+        System.out.println();
+        return new Line(minX, minZ, maxX, maxZ);
+    }
+
+    private static Line shiftLine(Line shoulderAxis, LivingEntity entity, AbstractArrow arrow) {
+        Vec3 arrowPos = arrow.position();
+        Vec3 entityPos = entity.position();
+        // get angle that torso is facing
+        float entityYawDeg = convertAngle(entity);
+        System.out.println("Entity yaw: " + entityYawDeg);
+        // convert angle to equivalent value
+        entityYawDeg = getEquivalentAngle(entityYawDeg);
+        // convert to radians
+        double entityYawRad = Math.toRadians(entityYawDeg);
+
+        // plug in the y coordinate from the arrow to see where the current torso line and the arrow intersect
+        System.out.println("Y-intercept: " + shoulderAxis.getIntercept() + " slope: " + shoulderAxis.getSlope());
+        // get the x coordinate when the z coordinate equals the arrow's z coordinate (also make it + b not - b because z is inverted)
+        double x = (arrow.position().z + shoulderAxis.getIntercept())/shoulderAxis.getSlope();
+        System.out.println("Horizontal Component: " + x);
+        // find the x distance between the arrow and the torso line
+        double distance = Math.abs(arrowPos.x) - Math.abs(x);
+        System.out.println("Distance: " + distance);
+        double verticalComponent;
+
+        if (distance != 0) {
+            verticalComponent = distance * Math.tan(entityYawRad);
+        }
+        // if distance is 0, it means that it is hitting the arm
+        else {
+            return null;
+        }
+
+        if (arrowPos.x < entityPos.x) {
+            distance = -distance;
+        }
+        if (arrowPos.z < entityPos.z) {
+            verticalComponent = -verticalComponent;
+        }
+
+        double minX = shoulderAxis.getMinX() + distance;
+        double minZ = shoulderAxis.getMinY() + verticalComponent;
+
+        double maxX = shoulderAxis.getMaxX() + distance;
+        double maxZ = shoulderAxis.getMaxY() + verticalComponent;
+
+        // need to fix vertical component adding
+
+        System.out.println("Entity yaw: " + entityYawDeg);
+        System.out.println("Shifted line minX: " + minX + " minZ: " + minZ + " maxX: " + maxX + " maxZ: " + maxZ);
         System.out.println();
         return new Line(minX, minZ, maxX, maxZ);
     }

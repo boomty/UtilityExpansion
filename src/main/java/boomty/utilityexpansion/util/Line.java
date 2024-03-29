@@ -10,8 +10,10 @@ public class Line {
         this.minY = minY;
         this.maxX = maxX;
         this.maxY = maxY;
-        slope = (maxY-minY)/(maxX-minX);
-        intercept = maxY - slope * maxX;
+        // slope needs to be inverted because minecraft coordinate system is inverted
+        slope = -((maxY-minY)/(maxX-minX));
+        // invert y because the z coordinate is inverted
+        intercept = -maxY - slope * maxX;
     }
 
     public double getIntercept() {
