@@ -145,10 +145,10 @@ public class EventHandler {
         float entityYawDeg = convertAngle(entity);
 
         // get the angle of the line that goes across the torso (perpendicular angle)
-        float perpendicularYawDeg = (entityYawDeg + 90) % 360;
+        float originalPerpendicularYawDeg = (entityYawDeg + 90) % 360;
 
         // get equivalent angle that is easier to work with
-        perpendicularYawDeg = getEquivalentAngle(perpendicularYawDeg);
+        double perpendicularYawDeg = getEquivalentAngle(originalPerpendicularYawDeg);
         double perpendicularYawRad = Math.toRadians(perpendicularYawDeg);
 
         double horizontalComponent = torsoRadius * Math.cos(perpendicularYawRad);
@@ -157,7 +157,7 @@ public class EventHandler {
         // apply correct sign to the components based on angle
         horizontalComponent = -horizontalComponent;
 
-        if (!(perpendicularYawDeg < 90)) {
+        if (originalPerpendicularYawDeg > 90) {
             verticalComponent = -verticalComponent;
         }
 
@@ -189,32 +189,38 @@ public class EventHandler {
         // plug in the y coordinate from the arrow to see where the current torso line and the arrow intersect
         System.out.println("Y-intercept: " + shoulderAxis.getIntercept() + " slope: " + shoulderAxis.getSlope());
         // get the x coordinate when the z coordinate equals the arrow's z coordinate (also make it + b not - b because z is inverted)
-        double x = (arrow.position().z + shoulderAxis.getIntercept())/shoulderAxis.getSlope();
-        System.out.println("Horizontal Component: " + x);
+        double x = (-arrow.position().z - shoulderAxis.getIntercept())/shoulderAxis.getSlope();
+        System.out.println(-arrow.position().z + "" + "" + shoulderAxis.getIntercept() + "" + "/" + shoulderAxis.getSlope());
+        System.out.println("x: " + x);
         // find the x distance between the arrow and the torso line
         double distance = Math.abs(arrowPos.x) - Math.abs(x);
         System.out.println("Distance: " + distance);
         double verticalComponent;
+        double horizontalComponent = distance * Math.cos(entityYawRad);
 
         if (distance != 0) {
-            verticalComponent = distance * Math.tan(entityYawRad);
+            verticalComponent = distance * Math.sin(entityYawDeg);
         }
         // if distance is 0, it means that it is hitting the arm
         else {
             return null;
         }
 
+        // need to fix comparison to check the angle rather than the arrow's position
         if (arrowPos.x < entityPos.x) {
-            distance = -distance;
+            horizontalComponent = -horizontalComponent;
         }
         if (arrowPos.z < entityPos.z) {
             verticalComponent = -verticalComponent;
         }
 
-        double minX = shoulderAxis.getMinX() + distance;
+        System.out.println("horizontal component: " + horizontalComponent);
+        System.out.println("vertical component: " + verticalComponent);
+
+        double minX = shoulderAxis.getMinX() + horizontalComponent;
         double minZ = shoulderAxis.getMinY() + verticalComponent;
 
-        double maxX = shoulderAxis.getMaxX() + distance;
+        double maxX = shoulderAxis.getMaxX() + horizontalComponent;
         double maxZ = shoulderAxis.getMaxY() + verticalComponent;
 
         // need to fix vertical component adding
