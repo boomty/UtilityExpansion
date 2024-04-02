@@ -54,37 +54,6 @@ public class EventHandler {
         }
     }
 
-//    @SubscribeEvent
-//    public static void onArrowHit(ProjectileImpactEvent event) {
-//        HitResult rayTraceResult = event.getRayTraceResult();
-//        if (rayTraceResult.getType() == HitResult.Type.ENTITY && event.getProjectile() instanceof Arrow arrow) {
-//            event.setCanceled(true);
-//        }
-//    }
-
-//    @SubscribeEvent
-//    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-//        Player player = event.player;
-//        if (!player.level.isClientSide ) {
-//            Vec3 pos = player.position();
-//            System.out.println("pos x " + pos.x);
-//            System.out.println("pos y " + pos.y);
-//            System.out.println("pos z " + pos.z);
-//
-//            List<Arrow> arrows = player.level.getEntitiesOfClass(Arrow.class, new AABB(pos.x - 5, pos.y - 5,
-//                    pos.z - 5, pos.x + 5, pos.y + 5, pos.z + 5));
-//
-//            for (Arrow arrow : arrows) {
-//                if (arrow.getOwner() != player) {
-//                    System.out.println("Arrow detected!");
-//                    arrow.setDeltaMovement(arrow.getDeltaMovement().x - player.getDeltaMovement().x,
-//                            arrow.getDeltaMovement().y - player.getDeltaMovement().y,
-//                            arrow.getDeltaMovement().z - player.getDeltaMovement().z);
-//                }
-//            }
-//        }
-//    }
-
     @SubscribeEvent
     public static void onEntityShot(LivingAttackEvent event) {
         if (event.getSource() instanceof IndirectEntityDamageSource projectile) {
@@ -120,11 +89,17 @@ public class EventHandler {
         return entityYawDeg;
     }
 
-    private static float getEquivalentAngle(float angle) {
+    private static float narrowAngle(float angle) {
         // narrow angles down to the second and third quadrants only
         if (angle > 180) {
-            angle = (angle + 180) % 360;
+            return (angle + 180) % 360;
         }
+        else {
+            return angle;
+        }
+    }
+
+    private static float getEquivalentAngle(float angle) {
         System.out.println(angle);
         // if the angle is less than 90 deg use the complementary angle
         if (angle < 90) {
@@ -146,6 +121,7 @@ public class EventHandler {
 
         // get the angle of the line that goes across the torso (perpendicular angle)
         float originalPerpendicularYawDeg = (entityYawDeg + 90) % 360;
+        originalPerpendicularYawDeg = narrowAngle(originalPerpendicularYawDeg);
 
         // get equivalent angle that is easier to work with
         double perpendicularYawDeg = getEquivalentAngle(originalPerpendicularYawDeg);
@@ -195,22 +171,25 @@ public class EventHandler {
         // find the x distance between the arrow and the torso line
         double distance = Math.abs(arrowPos.x) - Math.abs(x);
         System.out.println("Distance: " + distance);
+
+        // use distance to find hypotenuse of triangle
+        double hypotenuse = distance * Math.cos(entityYawRad);
+
         double verticalComponent;
-        double horizontalComponent = distance * Math.cos(entityYawRad);
+        double horizontalComponent = hypotenuse * Math.cos(entityYawRad);
 
         if (distance != 0) {
-            verticalComponent = distance * Math.sin(entityYawDeg);
+            verticalComponent = hypotenuse * Math.sin(entityYawRad);
         }
         // if distance is 0, it means that it is hitting the arm
         else {
             return null;
         }
 
-        // need to fix comparison to check the angle rather than the arrow's position
-        if (arrowPos.x < entityPos.x) {
+        if (arrowPos.x > entityPos.x) {
             horizontalComponent = -horizontalComponent;
         }
-        if (arrowPos.z < entityPos.z) {
+        if (arrowPos.z > entityPos.z) {
             verticalComponent = -verticalComponent;
         }
 
@@ -268,31 +247,4 @@ public class EventHandler {
 //
 //
 //    }
-
-//    @SubscribeEvent
-//    public static void equipCorrespondingComponent(LivingEquipmentChangeEvent event) {
-//        ModItemPairs modItems = ModItemPairs.getInstance();
-//        Map<Item, Item> correspondingItems = modItems.getCorrespondingItemStack();
-//
-//        if (event.getEntity() instanceof Player player && !player.getLevel().isClientSide) {
-//            EquipmentSlot slot = event.getSlot();
-//            ItemStack itemStack = player.getItemBySlot(slot);
-//
-//            if (correspondingItems.containsKey(itemStack.getItem())) {
-//                ItemStack correspondingItem = new ItemStack(correspondingItems.get(itemStack.getItem()));
-//                ItemStack currentItem = player.getItemBySlot(EquipmentSlot.LEGS);
-//                System.out.println(currentItem + "hi");
-//
-//                if (currentItem.isEmpty()) {
-//                    System.out.println("hihi");
-//                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItem);
-//                }
-//                else if (!correspondingItems.containsValue(currentItem.getItem())) {
-//                    player.addItem(currentItem);
-//                    player.setItemSlot(EquipmentSlot.LEGS, correspondingItem);
-//                }
-//            }
-//        }
-//    }
-
 }
