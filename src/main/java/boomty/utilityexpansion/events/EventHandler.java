@@ -100,7 +100,6 @@ public class EventHandler {
     }
 
     private static float getEquivalentAngle(float angle) {
-        System.out.println(angle);
         // if the angle is less than 90 deg use the complementary angle
         if (angle < 90) {
             angle = 90 - angle;
@@ -151,6 +150,13 @@ public class EventHandler {
         return new Line(minX, minZ, maxX, maxZ);
     }
 
+    private static boolean comparePosition(Vec3 arrowPos, Vec3 entityPos) {
+        double xDiff = Math.abs(Math.abs(arrowPos.x) - Math.abs(entityPos.x));
+        double zDiff = Math.abs(Math.abs(arrowPos.z) - Math.abs(entityPos.z));
+
+        return xDiff > zDiff;
+    }
+
     private static Line shiftLine(Line shoulderAxis, LivingEntity entity, AbstractArrow arrow) {
         Vec3 arrowPos = arrow.position();
         Vec3 entityPos = entity.position();
@@ -162,15 +168,22 @@ public class EventHandler {
         // convert to radians
         double entityYawRad = Math.toRadians(entityYawDeg);
 
+        // find the coordinates of the point at which the arrow intersects with the shoulder line
+        double correspondingCoordinate, distance;
         // plug in the y coordinate from the arrow to see where the current torso line and the arrow intersect
-        System.out.println("Y-intercept: " + shoulderAxis.getIntercept() + " slope: " + shoulderAxis.getSlope());
-        // get the x coordinate when the z coordinate equals the arrow's z coordinate (also make it + b not - b because z is inverted)
-        double x = (-arrow.position().z - shoulderAxis.getIntercept())/shoulderAxis.getSlope();
-        System.out.println(-arrow.position().z + "" + "" + shoulderAxis.getIntercept() + "" + "/" + shoulderAxis.getSlope());
-        System.out.println("x: " + x);
-        // find the x distance between the arrow and the torso line
-        double distance = Math.abs(arrowPos.x) - Math.abs(x);
-        System.out.println("Distance: " + distance);
+        if (!comparePosition(arrowPos, entityPos)) {
+            correspondingCoordinate = (-arrowPos.z - shoulderAxis.getIntercept())/shoulderAxis.getSlope();
+            System.out.println("Corresponding Component: " + -arrow.position().z + " - " + shoulderAxis.getIntercept() + "/" + shoulderAxis.getSlope() + " = " + correspondingCoordinate);
+            distance = Math.abs(arrowPos.x) - Math.abs(correspondingCoordinate);
+            System.out.println("Distance: " + Math.abs(arrowPos.x) + " - " + Math.abs(correspondingCoordinate) + " = " + distance);
+        }
+        // plug in the x coordinate from the arrow to see where the current torso line and the arrow intersect
+        else {
+            correspondingCoordinate = shoulderAxis.getSlope() * arrowPos.x + shoulderAxis.getIntercept();
+            System.out.println("Corresponding Component: " + shoulderAxis.getSlope() + " * " + arrowPos.x + " + " + shoulderAxis.getIntercept() + " = " + correspondingCoordinate);
+            distance = Math.abs(arrowPos.z) - Math.abs(correspondingCoordinate);
+            System.out.println("Distance: " + Math.abs(arrowPos.z) + " - " + Math.abs(correspondingCoordinate) + " = " + distance);
+        }
 
         // use distance to find hypotenuse of triangle
         double hypotenuse = distance * Math.cos(entityYawRad);
