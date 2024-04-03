@@ -66,12 +66,7 @@ public class EventHandler {
                     System.out.println("Entity pos x: " + entityPos.x + " pos y: " + entityPos.z);
                     System.out.println("Arrow pos x: " + arrowPos.x + " pos y: " + arrowPos.z);
 
-                    Line lineSeg = getShoulderAxis(entity);
-                    Line shiftedLine = shiftLine(lineSeg, entity, arrow);
-
-                    if (arrowPos.y > entityPos.y + 0.61875) {
-                        event.setCanceled(true);
-                    }
+                    System.out.println(arrowDamagedPart(arrow, entity));
                 }
             }
         }
@@ -223,41 +218,46 @@ public class EventHandler {
         return new Line(minX, minZ, maxX, maxZ);
     }
 
-//    private int arrowDamagedPart(AbstractArrow arrow, LivingEntity entity) {
-//        Vec3 arrowPos = arrow.position();
-//        Vec3 playerPos = entity.position();
-//
-//        // hit head
-//        if (arrowPos.y > playerPos.y + 1.2375) {
-//
-//        }
-//        // hit torso or arms
-//        else if (arrowPos.y > playerPos.y + 0.61875) {
-//
-//        }
-//        // hit legs
-//        else {
-//
-//        }
-//    }
-//
-//    private boolean isHitArm(AbstractArrow arrow, LivingEntity entity) {
-//        // get direction entity is heading in
-//        Vec2 entityDirection = entity.getRotationVector();
-//        // get the perpendicular vector
-//        Vec2 perpendicularVec = new Vec2(-entityDirection.y, entityDirection.x).normalized();
-//        // get entity position
-//        Vec3 entityPos = entity.position();
-//
-//        // calculate line that goes across entity body
-//        double torsoRadius = 0.2813;
-//        double minX = entityPos.x + torsoRadius * perpendicularVec.x;
-//        double minY = entityPos.y + torsoRadius * perpendicularVec.y;
-//        double maxX = entityPos.x - torsoRadius * perpendicularVec.x;
-//        double maxY = entityPos.y - torsoRadius * perpendicularVec.y;
-//
-//        Line entityLine = new Line(minX, minY, maxX, maxY);
-//
-//
-//    }
+    private static boolean isHitArm(AbstractArrow arrow, LivingEntity entity) {
+        Line lineSeg = getShoulderAxis(entity);
+        Line shiftedLine = shiftLine(lineSeg, entity, arrow);
+
+        Vec3 arrowPos = arrow.position();
+
+        if (shiftedLine == null) {
+            return true;
+        }
+        if (arrowPos.x > shiftedLine.getMaxX() || arrowPos.x < shiftedLine.getMinX()) {
+            return true;
+        }
+        if (arrowPos.z < shiftedLine.getMaxY() || arrowPos.z > shiftedLine.getMinY()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int arrowDamagedPart(AbstractArrow arrow, LivingEntity entity) {
+        Vec3 arrowPos = arrow.position();
+        Vec3 playerPos = entity.position();
+
+        // hit head
+        if (arrowPos.y > playerPos.y + 1.2375) {
+            return 0;
+        }
+        // hit torso or arms
+        else if (arrowPos.y > playerPos.y + 0.61875) {
+            if (isHitArm(arrow, entity)) {
+                return 1;
+            }
+            else {
+                return 2;
+            }
+        }
+        // hit legs
+        else {
+            return 3;
+        }
+    }
+
 }
