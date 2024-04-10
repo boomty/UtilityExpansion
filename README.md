@@ -15,7 +15,7 @@ Utility Expansion is a mod that seeks to add a plethora of new medieval, classic
   <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG14M2tlNjl4enp2OWF0MjBheXFnb2EzYmJjZjFjMDNybnU2d2dtcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZihjqcfDa3xqKXl8Yn/giphy.gif" alt="Equip Armor Gif" width="200" />
 
 - **Add armor attachment system: In-Progress**   
-  Players can now attach different attachments to their armor, such as belts, sheaths, decorative ornaments, and even additional pieces of armor that add more protection and layering. 
+  Players can now attach different attachments to their armor, such as belts, sheaths, decorative ornaments, and even additional pieces of armor that offer more protection. 
 
 - **Add new armor point system: Complete**   
   Different armors have different strengths and weaknesses against certain weaponry. Armor plates can also deflect arrows. 
