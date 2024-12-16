@@ -114,7 +114,7 @@ public abstract class PlayerMixin extends LivingEntity {
     /*
     Method: set
     Return: void
-    Purpose: When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
+    Purpose: (Client side) When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
     case when a player right-clicks a piece of armor outside the inventory ui.
      */
     @Inject(method = "setItemSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/NonNullList;set(ILjava/lang/Object;)Ljava/lang/Object;", ordinal = 2))

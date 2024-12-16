@@ -2,7 +2,6 @@ package boomty.utilityexpansion.client.model.armor;
 
 import boomty.utilityexpansion.UtilityExpansion;
 import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 

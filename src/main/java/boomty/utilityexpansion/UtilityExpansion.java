@@ -1,8 +1,10 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.CuriosLayerDefinition;
+import boomty.utilityexpansion.client.model.armor.curios.FaceMaskModelCurios;
 import boomty.utilityexpansion.client.model.armor.curios.LoricaSegmentataModel;
 import boomty.utilityexpansion.client.model.armor.curios.TunicUpperModel;
+import boomty.utilityexpansion.client.renderer.armor.curios.FaceMaskRendererCurios;
 import boomty.utilityexpansion.client.renderer.armor.curios.LoricaSegmentataRenderer;
 import boomty.utilityexpansion.client.renderer.armor.curios.TunicUpperRenderer;
 import boomty.utilityexpansion.packets.PacketHandler;
@@ -86,6 +88,8 @@ public class UtilityExpansion {
     private void clientSetup(final FMLClientSetupEvent event) {
         CuriosRendererRegistry.register(ItemRegistry.lorica_segmentata.get(), LoricaSegmentataRenderer::new);
         CuriosRendererRegistry.register(ItemRegistry.tunic.get(), TunicUpperRenderer::new);
+        CuriosRendererRegistry.register(ItemRegistry.face_mask.get(), FaceMaskRendererCurios::new);
+
         ModItemProperties.addCustomItemProperties();
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
                 new ResourceLocation(MOD_ID, "animation"),
@@ -97,6 +101,7 @@ public class UtilityExpansion {
         // Some example code to dispatch IMC to another mod
         InterModComms.sendTo("utilityexpansion", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BODY.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.HEAD.getMessageBuilder().build());
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -127,6 +132,7 @@ public class UtilityExpansion {
     private void registerLayers(final EntityRenderersEvent.RegisterLayerDefinitions evt) {
         evt.registerLayerDefinition(CuriosLayerDefinition.LORICA_SEGMENTATA, LoricaSegmentataModel::createBodyLayer);
         evt.registerLayerDefinition(CuriosLayerDefinition.TUNIC, TunicUpperModel::createBodyLayer);
+        evt.registerLayerDefinition(CuriosLayerDefinition.FACE_MASK, FaceMaskModelCurios::createLayer);
     }
 
     private static IAnimation registerPlayerAnimation(AbstractClientPlayer player) {

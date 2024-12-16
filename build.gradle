@@ -130,7 +130,10 @@ repositories {
 
     //Geckolib Repistories
 
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
     maven { url = 'https://repo.spongepowered.org/maven'}
     maven { url = 'https://maven.theillusivec4.top/'}
     maven {
@@ -147,10 +150,10 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.74'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.21'
 
     //Geckolib Dependencies
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.36')
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:1.0.2+1.18")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings

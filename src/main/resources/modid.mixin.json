@@ -6,7 +6,8 @@
     "AbstractContainerScreenMixin",
     "LivingEntityMixin",
     "MultiPlayerGameModeMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "PlayerRendererMixin"
   ],
   "client": [
   ],

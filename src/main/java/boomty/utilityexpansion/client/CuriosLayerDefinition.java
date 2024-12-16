@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 public class CuriosLayerDefinition {
     public static final ModelLayerLocation
         LORICA_SEGMENTATA = createLayerLocation("lorica_segmentata"),
-        TUNIC = createLayerLocation("tunic");
-
+        TUNIC = createLayerLocation("tunic"),
+        FACE_MASK = createLayerLocation("face_mask");
 
     public static ModelLayerLocation createLayerLocation(String name) {
         return new ModelLayerLocation(new ResourceLocation(UtilityExpansion.MOD_ID, name), name);

@@ -6,6 +6,7 @@ import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
 import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
 import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
 import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
+import boomty.utilityexpansion.item.ArmorItems.HeadArmor.FaceMaskItem;
 import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
@@ -19,15 +20,21 @@ import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.eventbus.api.IEventBus;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
-public class ItemRegistry{
+public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UtilityExpansion.MOD_ID);
+
+    public static final RegistryObject<FaceMaskItem> face_mask = ITEMS.register("face_mask",
+            () -> new FaceMaskItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new Item.Properties()));
+
     public static final RegistryObject<Galea> galea = ITEMS.register("galea",
             () -> new Galea(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
 
     public static final RegistryObject<LoricaSegmentata> lorica_segmentata = ITEMS.register("lorica_segmentata",
             () -> new LoricaSegmentata(ArmorMaterials.IRON, EquipmentSlot.CHEST, new Item.Properties()));
+
     public static final RegistryObject<RomanArmorItem> lorica_legs = ITEMS.register("lorica_legs",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.LEGS, new Item.Properties()));
+
     public static final RegistryObject<RomanArmorItem> caligae = ITEMS.register("caligae",
             () -> new RomanArmorItem(ArmorMaterials.IRON, EquipmentSlot.FEET, new Item.Properties()));
 
@@ -49,6 +56,7 @@ public class ItemRegistry{
 
     public static final RegistryObject<ShieldItem> scutum = ITEMS.register("scutum",
             () -> new ShieldItem(new Item.Properties().tab(UtilityExpansion.utilexpanseitemgroup).stacksTo(1)));
+
 
 //    public static final RegistryObject<Item> animated_item = ITEMS.register("animated_item",
 //            () -> new TestingItem(Tiers.IRON, 7, 1.6f,

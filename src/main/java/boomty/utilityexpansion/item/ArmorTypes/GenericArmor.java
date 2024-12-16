@@ -1,8 +1,9 @@
-package boomty.utilityexpansion.item;
+package boomty.utilityexpansion.item.ArmorTypes;
 
 import boomty.utilityexpansion.UtilityExpansion;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -13,19 +14,16 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.item.GeoArmorItem;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-/**
- * Will be deprecated
- */
-public class RomanArmorItem extends GeoArmorItem implements IAnimatable {
+public abstract class GenericArmor extends GeoArmorItem implements IAnimatable {
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
-    public RomanArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
+    public GenericArmor(ArmorMaterial materialIn, EquipmentSlot slot, Item.Properties builder) {
         super(materialIn, slot, builder.tab(UtilityExpansion.utilexpanseitemgroup));
     }
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<RomanArmorItem>(this, "controller",
+        data.addAnimationController(new AnimationController<>(this, "controller",
                 20, this::predicate));
     }
 

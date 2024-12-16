@@ -19,33 +19,16 @@ import java.awt.*;
 /**
  * Mod armor all armors extend this class. Adds attribute for specific weapon protection.
  */
-public abstract class ModArmor extends GeoArmorItem implements IAnimatable{
-    private AnimationFactory factory = new AnimationFactory(this);
+public abstract class ModArmor extends GenericArmor {
     // special weapon type resistances: 1. sword; 2. blunt
     private float[] weaponResistance;
 
     protected boolean isArrowResistant;
 
     public ModArmor(ArmorMaterial materialIn, EquipmentSlot slot, Item.Properties builder, float[] weaponResistance) {
-        super(materialIn, slot, builder.tab(UtilityExpansion.utilexpanseitemgroup));
+        super(materialIn, slot, builder);
         this.weaponResistance = weaponResistance;
         this.isArrowResistant = false;
-    }
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<ModArmor>(this, "controller",
-                20, this::predicate));
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
-    }
-
-    private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-        return PlayState.CONTINUE;
     }
 
     public float[] getWeaponResistance() {

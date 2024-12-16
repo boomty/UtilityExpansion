@@ -26,7 +26,7 @@ public abstract class MultiPlayerGameModeMixin {
     /*
     Method: addCorrespondingPart
     Returns: void
-    Purpose: When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
+    Purpose: (Server side) When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
     case when a player is in the player inventory gui. Only applies in survival.
      */
     @Inject(method = "handleInventoryMouseClick", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;clicked(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
@@ -52,5 +52,15 @@ public abstract class MultiPlayerGameModeMixin {
                     new ServerboundArmorUpdatePacket(newLegItemStack, EquipmentSlotConverter
                             .getSlotIdFromEquipmentSlot(EquipmentSlot.LEGS)));
         }
+    }
+
+    /*
+    Method: addCorrespondingPart
+    Returns: void
+    Purpose: (Server side) When a face mask is equipped, the player head will be made invisible
+     */
+    @Inject(method = "handleInventoryMouseClick", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;clicked(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
+    public void makePlayerHeadInvis(int p_171800_, int p_171801_, int p_171802_, ClickType p_171803_, Player p_171804_, CallbackInfo ci) {
+
     }
 }
