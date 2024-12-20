@@ -20,5 +20,8 @@ public class PacketHandler {
         INSTANCE.messageBuilder(ServerboundArmorUpdatePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
                 .encoder(ServerboundArmorUpdatePacket::encode).decoder(ServerboundArmorUpdatePacket::new)
                 .consumer(ServerboundArmorUpdatePacket::handle).add();
+        INSTANCE.messageBuilder(ServerboundCuriosInventoryUpdatePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ServerboundCuriosInventoryUpdatePacket::encode).decoder(ServerboundCuriosInventoryUpdatePacket::new)
+                .consumer(ServerboundCuriosInventoryUpdatePacket::handle).add();
     }
 }

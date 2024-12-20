@@ -5,6 +5,7 @@ import boomty.utilityexpansion.item.armorTypes.ModArmor;
 import boomty.utilityexpansion.item.armorTypes.headArmor.EnclosedHelmet;
 import boomty.utilityexpansion.packets.PacketHandler;
 import boomty.utilityexpansion.packets.ServerboundArmorUpdatePacket;
+import boomty.utilityexpansion.packets.ServerboundCuriosInventoryUpdatePacket;
 import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.EquipmentSlotConverter;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
@@ -34,7 +35,7 @@ public abstract class MultiPlayerGameModeMixin {
     /*
     Method: addCorrespondingPart
     Returns: void
-    Purpose: (Server side) When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
+    Purpose: (Client side) When main part of an armor pair is equipped, its corresponding part will also be equipped. This covers the
     case when a player is in the player inventory gui. Only applies in survival.
      */
     @Inject(method = "handleInventoryMouseClick", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;clicked(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
@@ -74,12 +75,13 @@ public abstract class MultiPlayerGameModeMixin {
                 // If something is already equipped on the curio head slot
                 if (headCurio != ItemStack.EMPTY && headCurio.equals(faceMask) &&
                         p_171804_.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof EnclosedHelmet) {
-                    System.out.println("Curio head slot: " + headCurio.getItem().getRegistryName());
                     PacketHandler.INSTANCE.sendToServer(
                             new ServerboundArmorUpdatePacket(headCurio, -1));
                 }
-
                 CuriosApi.getCuriosHelper().setEquippedCurio(p_171804_, "head", 0, faceMask);
+
+                PacketHandler.INSTANCE.sendToServer(new ServerboundCuriosInventoryUpdatePacket(faceMask,
+                        "head".getBytes(), 0));
             }
         }
     }

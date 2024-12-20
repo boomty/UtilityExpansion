@@ -4,17 +4,17 @@ import boomty.utilityexpansion.item.armorTypes.curios.Mask;
 import boomty.utilityexpansion.item.armorTypes.headArmor.EnclosedHelmet;
 import boomty.utilityexpansion.packets.PacketHandler;
 import boomty.utilityexpansion.packets.ServerboundArmorUpdatePacket;
+import boomty.utilityexpansion.packets.ServerboundCuriosInventoryUpdatePacket;
+import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.EquipmentSlotConverter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -79,6 +79,10 @@ public abstract class AbstractContainerScreenMixin <T extends AbstractContainerM
             // if player removes enclosed helmet, also remove mask
             else if (slotItem instanceof EnclosedHelmet && p_97779_ == 5) {
                 CuriosApi.getCuriosHelper().setEquippedCurio(player, "head", 0, ItemStack.EMPTY);
+
+                PacketHandler.INSTANCE.sendToServer(
+                        new ServerboundCuriosInventoryUpdatePacket(ItemStack.EMPTY, "head".getBytes(), 0)
+                );
             }
         }
     }
