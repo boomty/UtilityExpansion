@@ -1,6 +1,6 @@
 package boomty.utilityexpansion.mixin;
 
-import boomty.utilityexpansion.item.ArmorTypes.ModArmor;
+import boomty.utilityexpansion.item.armorTypes.ModArmor;
 import boomty.utilityexpansion.item.BluntWeapon;
 import boomty.utilityexpansion.item.WeaponTypes;
 import net.minecraft.world.damagesource.DamageSource;

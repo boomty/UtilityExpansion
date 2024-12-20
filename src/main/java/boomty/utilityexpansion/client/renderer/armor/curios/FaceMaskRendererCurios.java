@@ -32,24 +32,34 @@ public class FaceMaskRendererCurios implements ICurioRenderer {
                                                                           float limbSwingAmount, float partialTicks,
                                                                           float ageInTicks, float netHeadYaw,
                                                                           float headPitch) {
-        model.setupAnim(slotContext.entity(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        model.prepareMobModel(slotContext.entity(), limbSwing, limbSwingAmount, partialTicks);
-        ICurioRenderer.followHeadRotations(slotContext.entity(), model.head);
+        LivingEntity entity = slotContext.entity();
 
-        //rotate with head
+        model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+        ICurioRenderer.followHeadRotations(entity, model.head);
+
         matrixStack.pushPose();
+
+        // handle sneaking
+        if (entity.isCrouching()) {
+            matrixStack.translate(0, 0.25, 0);
+        }
+
+       // rotate model with the head
         matrixStack.mulPose(Vector3f.YP.rotation(model.head.yRot));
         matrixStack.mulPose(Vector3f.XP.rotation(model.head.xRot));
 
-        //scale and translate to head
-        matrixStack.translate(-0.25, 0.3, 0.2);
+        matrixStack.translate(0, 0.25, 0.27);
+
+        // translate and rotate
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0f));
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
-        matrixStack.scale(2f, 1f, 1f);
 
+        matrixStack.scale(2f, 1f, 1f);
 
         Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.HEAD, light,
                 OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer, 0);
         matrixStack.popPose();
+
     }
 }

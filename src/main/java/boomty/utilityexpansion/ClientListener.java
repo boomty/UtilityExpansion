@@ -1,9 +1,10 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.renderer.armor.*;
-import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.FaceMaskItem;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
+import boomty.utilityexpansion.item.armorItems.bodyArmor.LoricaSegmentata;
+import boomty.utilityexpansion.item.armorItems.curios.FaceMaskItem;
+import boomty.utilityexpansion.item.armorItems.headArmor.ArmetItalian;
+import boomty.utilityexpansion.item.armorItems.headArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,11 +20,12 @@ public class ClientListener {
     @SubscribeEvent
     public static void registerArmorRenderers(final EntityRenderersEvent.AddLayers event) {
         if (!FMLEnvironment.production && !UtilityExpansion.DISABLE_IN_DEV) {
-            GeoArmorRenderer.registerArmorRenderer(FaceMaskItem.class, () -> new FaceMaskRenderer());
-            GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
-            GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, () -> new LoricaSegmentataRenderer());
-            GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
-            GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
+            GeoArmorRenderer.registerArmorRenderer(ArmetItalian.class, ArmetItalianRenderer::new);
+            GeoArmorRenderer.registerArmorRenderer(FaceMaskItem.class, FaceMaskRenderer::new);
+            GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, RomanArmorRenderer::new);
+            GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, LoricaSegmentataRenderer::new);
+            GeoArmorRenderer.registerArmorRenderer(TunicItem.class, TunicItemRenderer::new);
+            GeoArmorRenderer.registerArmorRenderer(Galea.class, GaleaTypeHHelmetRenderer::new);
         }
     }
 }

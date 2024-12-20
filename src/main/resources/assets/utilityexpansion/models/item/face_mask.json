@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "utilityexpansion:item/mask_output"
+    "layer0": "utilityexpansion:item/face_mask_texture"
   }
 }

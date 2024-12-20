@@ -1,30 +1,27 @@
 package boomty.utilityexpansion.registry;
 
 import boomty.utilityexpansion.UtilityExpansion;
-import boomty.utilityexpansion.client.renderer.armor.LoricaSegmentataRenderer;
-import boomty.utilityexpansion.client.renderer.armor.RomanArmorRenderer;
-import boomty.utilityexpansion.client.renderer.armor.TunicItemRenderer;
-import boomty.utilityexpansion.client.renderer.armor.GaleaTypeHHelmetRenderer;
-import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.FaceMaskItem;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
+import boomty.utilityexpansion.item.armorItems.bodyArmor.LoricaSegmentata;
+import boomty.utilityexpansion.item.armorItems.curios.FaceMaskItem;
+import boomty.utilityexpansion.item.armorItems.headArmor.ArmetItalian;
+import boomty.utilityexpansion.item.armorItems.headArmor.Galea;
 import boomty.utilityexpansion.item.RomanArmorItem;
 import boomty.utilityexpansion.item.TunicItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.eventbus.api.IEventBus;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UtilityExpansion.MOD_ID);
 
     public static final RegistryObject<FaceMaskItem> face_mask = ITEMS.register("face_mask",
             () -> new FaceMaskItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new Item.Properties()));
+
+    public static final RegistryObject<ArmetItalian> armet_italian = ITEMS.register("armet_italian",
+            () -> new ArmetItalian(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
 
     public static final RegistryObject<Galea> galea = ITEMS.register("galea",
             () -> new Galea(ArmorMaterials.IRON, EquipmentSlot.HEAD, new Item.Properties()));
@@ -61,14 +58,6 @@ public class ItemRegistry {
 //    public static final RegistryObject<Item> animated_item = ITEMS.register("animated_item",
 //            () -> new TestingItem(Tiers.IRON, 7, 1.6f,
 //                    new Item.Properties().tab(utilityexpansion.utilexpanseitemgroup).stacksTo(1)));
-
-    @SubscribeEvent
-    public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(RomanArmorItem.class, () -> new RomanArmorRenderer());
-        GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, () -> new LoricaSegmentataRenderer());
-        GeoArmorRenderer.registerArmorRenderer(TunicItem.class, () -> new TunicItemRenderer());
-        GeoArmorRenderer.registerArmorRenderer(Galea.class, () -> new GaleaTypeHHelmetRenderer());
-    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

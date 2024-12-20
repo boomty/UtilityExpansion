@@ -20,8 +20,8 @@ public class FaceMaskModelCurios extends HumanoidModel<LivingEntity> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		partdefinition.addOrReplaceChild("bipedHead", CubeListBuilder.create().
-				texOffs(0, 0).addBox(-4.0F, 0.0F, -4.0F, 8.0F,
-						8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F,
+				texOffs(0, 0).addBox(-14.0F, 24.0F, -14.0F, 8.0F,
+						8.0F, 8.0F, cube), PartPose.offset(0.0F,
 				0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);

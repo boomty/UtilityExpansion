@@ -2,7 +2,7 @@ Java Launcher: C:\Users\natha\.gradle\jdks\adoptium-17-x64-hotspot-windows\bin\j
 Arguments: '--in-jar, C:\Users\natha\Documents\UtilityExpansion\build\libs\utilityexpansion-1.0.jar, --out-jar, C:\Users\natha\Documents\UtilityExpansion\build\reobfJar\output.jar, --srg-in, C:\Users\natha\Documents\UtilityExpansion\build\createMcpToSrg\output.tsrg, --srg-in, C:\Users\natha\Documents\UtilityExpansion\build\tmp\compileJava\compileJava-mappings.tsrg, --live'
 Classpath:
  - C:\Users\natha\.gradle\caches\forge_gradle\maven_downloader\net\md-5\SpecialSource\1.11.0\SpecialSource-1.11.0-shaded.jar
- - C:\Users\natha\.gradle\caches\forge_gradle\deobf_dependencies\top\theillusivec4\curios\curios-forge\1.18.2-5.0.6.3_mapped_official_1.18.2\curios-forge-1.18.2-5.0.6.3_mapped_official_1.18.2-api.jar
+ - C:\Users\natha\.gradle\caches\forge_gradle\deobf_dependencies\top\theillusivec4\curios\curios-forge\1.18.2-5.0.9.2_mapped_official_1.18.2\curios-forge-1.18.2-5.0.9.2_mapped_official_1.18.2-api.jar
  - C:\Users\natha\.gradle\caches\forge_gradle\deobf_dependencies\software\bernie\geckolib\geckolib-forge-1.18\3.0.57_mapped_official_1.18.2\geckolib-forge-1.18-3.0.57_mapped_official_1.18.2.jar
  - C:\Users\natha\.gradle\caches\forge_gradle\deobf_dependencies\dev\kosmx\player-anim\player-animation-lib-forge\1.0.2+1.18_mapped_official_1.18.2\player-animation-lib-forge-1.0.2+1.18_mapped_official_1.18.2.jar
  - C:\Users\natha\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.18.2-40.2.21_mapped_official_1.18.2\forge-1.18.2-40.2.21_mapped_official_1.18.2-recomp.jar

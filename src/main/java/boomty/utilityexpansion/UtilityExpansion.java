@@ -2,11 +2,7 @@ package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.CuriosLayerDefinition;
 import boomty.utilityexpansion.client.model.armor.curios.FaceMaskModelCurios;
-import boomty.utilityexpansion.client.model.armor.curios.LoricaSegmentataModel;
-import boomty.utilityexpansion.client.model.armor.curios.TunicUpperModel;
 import boomty.utilityexpansion.client.renderer.armor.curios.FaceMaskRendererCurios;
-import boomty.utilityexpansion.client.renderer.armor.curios.LoricaSegmentataRenderer;
-import boomty.utilityexpansion.client.renderer.armor.curios.TunicUpperRenderer;
 import boomty.utilityexpansion.packets.PacketHandler;
 import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.ModItemProperties;
@@ -86,8 +82,6 @@ public class UtilityExpansion {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        CuriosRendererRegistry.register(ItemRegistry.lorica_segmentata.get(), LoricaSegmentataRenderer::new);
-        CuriosRendererRegistry.register(ItemRegistry.tunic.get(), TunicUpperRenderer::new);
         CuriosRendererRegistry.register(ItemRegistry.face_mask.get(), FaceMaskRendererCurios::new);
 
         ModItemProperties.addCustomItemProperties();
@@ -130,8 +124,6 @@ public class UtilityExpansion {
     }
 
     private void registerLayers(final EntityRenderersEvent.RegisterLayerDefinitions evt) {
-        evt.registerLayerDefinition(CuriosLayerDefinition.LORICA_SEGMENTATA, LoricaSegmentataModel::createBodyLayer);
-        evt.registerLayerDefinition(CuriosLayerDefinition.TUNIC, TunicUpperModel::createBodyLayer);
         evt.registerLayerDefinition(CuriosLayerDefinition.FACE_MASK, FaceMaskModelCurios::createLayer);
     }
 

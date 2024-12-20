@@ -1,9 +1,7 @@
 package boomty.utilityexpansion.client.renderer.armor;
 
-import boomty.utilityexpansion.client.model.armor.GaleaTypeHHelmetModel;
 import boomty.utilityexpansion.client.model.armor.LoricaSegmentataModel;
-import boomty.utilityexpansion.item.ArmorItems.BodyArmor.LoricaSegmentata;
-import boomty.utilityexpansion.item.ArmorItems.HeadArmor.Galea;
+import boomty.utilityexpansion.item.armorItems.bodyArmor.LoricaSegmentata;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
