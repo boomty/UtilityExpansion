@@ -8,7 +8,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class ArmetItalianModel extends AnimatedGeoModel<ArmetItalian> {
     @Override
     public ResourceLocation getModelLocation(ArmetItalian object) {
-        return new ResourceLocation(UtilityExpansion.MOD_ID, "geo/armet_italian_no_attachments.geo.json");
+        return new ResourceLocation(UtilityExpansion.MOD_ID, "geo/armet_italian.geo.json");
     }
 
     @Override
