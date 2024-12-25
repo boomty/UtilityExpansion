@@ -18,7 +18,7 @@ public class ArmetItalianModel extends AnimatedGeoModel<ArmetItalian> {
 
     @Override
     public ResourceLocation getAnimationFileLocation(ArmetItalian animatable) {
-        return new ResourceLocation(UtilityExpansion.MOD_ID, "animations/armor_animation.json");
+        return new ResourceLocation(UtilityExpansion.MOD_ID, "animations/armet_italian_animation.json");
     }
 }
 

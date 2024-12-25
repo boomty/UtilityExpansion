@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,9 +39,10 @@ public abstract class MultiPlayerGameModeMixin {
      */
     @Inject(method = "handleInventoryMouseClick", at =@At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;clicked(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
     public void addCorrespondingPart(int p_171800_, int p_171801_, int p_171802_, ClickType p_171803_, Player p_171804_, CallbackInfo ci) {
+        // p_171801_ is slot id
         ItemStack chestItemStack = p_171804_.getItemBySlot(EquipmentSlot.CHEST);
-        // Equip corresponding item pairs for chest and legs
-        if (chestItemStack.getItem() instanceof ModArmor) {
+        // Equip corresponding item pairs for chest and legs if player clicks chest slot
+        if (chestItemStack.getItem() instanceof ModArmor && (p_171801_ == 6 || p_171803_ == ClickType.QUICK_MOVE)) {
             ModItemPairs modItems = ModItemPairs.getInstance();
             Map<Item, Item> correspondingItems = modItems.getCorrespondingItemStack();
 
@@ -64,7 +64,8 @@ public abstract class MultiPlayerGameModeMixin {
             }
         }
         // Equip mask for enclosed helmets
-        else if (p_171804_.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof EnclosedHelmet) {
+        if (p_171804_.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof EnclosedHelmet &&
+                (p_171801_ == 5 || p_171803_ == ClickType.QUICK_MOVE)) {
             ItemStack faceMask = new ItemStack(ItemRegistry.face_mask.get());
             Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosHelper().getEquippedCurios(p_171804_).resolve();
 

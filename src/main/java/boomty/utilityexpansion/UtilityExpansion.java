@@ -1,6 +1,7 @@
 package boomty.utilityexpansion;
 
 import boomty.utilityexpansion.client.CuriosLayerDefinition;
+import boomty.utilityexpansion.client.InitializeKeys;
 import boomty.utilityexpansion.client.model.armor.curios.FaceMaskModelCurios;
 import boomty.utilityexpansion.client.renderer.armor.curios.FaceMaskRendererCurios;
 import boomty.utilityexpansion.packets.PacketHandler;
@@ -89,6 +90,7 @@ public class UtilityExpansion {
                 new ResourceLocation(MOD_ID, "animation"),
                 1,
                 UtilityExpansion::registerPlayerAnimation);
+        InitializeKeys.init();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
