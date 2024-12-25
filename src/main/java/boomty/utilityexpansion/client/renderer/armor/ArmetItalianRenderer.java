@@ -18,6 +18,10 @@ public class ArmetItalianRenderer extends GeoArmorRenderer<ArmetItalian> impleme
         update();
     }
 
+    public void close() {
+
+    }
+
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
         GeoArmorRenderer.registerArmorRenderer(ArmetItalian.class, ArmetItalianRenderer::new);
