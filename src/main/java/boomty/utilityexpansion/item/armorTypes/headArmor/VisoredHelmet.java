@@ -27,9 +27,9 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
     private static boolean wasRunning = false;
     private static Subscriber correspondingRenderer;
 
-    public VisoredHelmet(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder, VisoredHelmet helmet) {
+    public VisoredHelmet(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
         super(materialIn, slot, builder);
-        VisorEventHandler.attachSubscriber(helmet);
+        VisorEventHandler.attachSubscriber(this);
     }
 
     public static void attachSubscriber(Subscriber subscriber) {
@@ -74,7 +74,7 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
 //            System.out.println("down");
         }
 
-//        System.out.println(event.getController().getAnimationState());
+        System.out.println(event.getController().getAnimationState());
         // keep track of the animation state to know when the animation was completed
         if (event.getController().getAnimationState() == AnimationState.Running) {
             wasRunning = true;

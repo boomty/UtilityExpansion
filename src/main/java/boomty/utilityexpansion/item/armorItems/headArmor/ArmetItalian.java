@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 //public class ArmetItalian extends HeavyPartialHelmet implements EnclosedHelmet, Publisher, Subscriber {
 public class ArmetItalian extends VisoredHelmet {
-    public ArmetItalian(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder, VisoredHelmet helmet) {
-        super(materialIn, slot, builder, helmet);
+    public ArmetItalian(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
+        super(materialIn, slot, builder);
     }
 
 //    public static boolean isVisorUp = true;

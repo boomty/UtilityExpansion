@@ -44,7 +44,7 @@ public class VisorEventHandler implements Publisher {
 
     @SubscribeEvent
     public static void inventoryTracker(PlayerTickEvent e) {
-        headArmor = e.player.getInventory().armor.get(0);
+        headArmor = e.player.getInventory().armor.get(3);
     }
 
     @SubscribeEvent

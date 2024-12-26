@@ -49,7 +49,7 @@ public class FaceMaskRendererCurios implements ICurioRenderer {
         matrixStack.mulPose(Vector3f.YP.rotation(model.head.yRot));
         matrixStack.mulPose(Vector3f.XP.rotation(model.head.xRot));
 
-        matrixStack.translate(0, 0.25, 0.27);
+        matrixStack.translate(0, 0.22, 0.27);
 
         // translate and rotate
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0f));
