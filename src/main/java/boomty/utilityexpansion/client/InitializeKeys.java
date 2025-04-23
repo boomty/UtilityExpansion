@@ -9,12 +9,15 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 
 public final class InitializeKeys {
     public static KeyMapping toggleVisor;
+    public static KeyMapping attachmentScreen;
 
     private InitializeKeys() {}
 
     public static void init() {
         toggleVisor = registerKey("visor", KeyConflictContext.IN_GAME,
                 InputConstants.getKey(InputConstants.KEY_V, -1), KeyMapping.CATEGORY_GAMEPLAY);
+        attachmentScreen = registerKey("attachment screen", KeyConflictContext.IN_GAME,
+                InputConstants.getKey(InputConstants.KEY_Z, -1), KeyMapping.CATEGORY_MISC);
     }
 
     private static KeyMapping registerKey(String name, KeyConflictContext context, Key keybind, String category) {
