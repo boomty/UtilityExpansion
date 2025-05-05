@@ -4,13 +4,11 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "AbstractContainerScreenMixin",
-    "GeoArmorRendererMixin",
     "LivingEntityMixin",
     "MultiPlayerGameModeMixin",
     "PlayerMixin",
+    "HumanoidArmorLayerMixin",
     "PlayerRendererMixin"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,7 +3,6 @@ package boomty.utilityexpansion.events;
 import boomty.utilityexpansion.UtilityExpansion;
 import boomty.utilityexpansion.client.InitializeKeys;
 import boomty.utilityexpansion.item.armorItems.headArmor.ArmetItalian;
-import boomty.utilityexpansion.item.armorTypes.ModArmor;
 import boomty.utilityexpansion.item.armorTypes.headArmor.VisoredHelmet;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;

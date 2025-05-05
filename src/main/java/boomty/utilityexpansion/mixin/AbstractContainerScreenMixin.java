@@ -5,7 +5,6 @@ import boomty.utilityexpansion.item.armorTypes.headArmor.EnclosedHelmet;
 import boomty.utilityexpansion.packets.PacketHandler;
 import boomty.utilityexpansion.packets.ServerboundArmorUpdatePacket;
 import boomty.utilityexpansion.packets.ServerboundCuriosInventoryUpdatePacket;
-import boomty.utilityexpansion.registry.ItemRegistry;
 import boomty.utilityexpansion.util.EquipmentSlotConverter;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

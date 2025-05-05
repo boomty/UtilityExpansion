@@ -36,22 +36,6 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
         correspondingRenderer = subscriber;
     }
 
-    public void setVisor(boolean hasVisor) {
-        VisoredHelmet.hasVisor = hasVisor;
-        if (hasVisor) {
-            isVisorUp = true;
-            VisorEventHandler.attachSubscriber(this);
-        }
-        else {
-            isVisorUp = false;
-            VisorEventHandler.removeSubscriber(this);
-        }
-    }
-
-    public void setWrapper(boolean hasWrapper) {
-        VisoredHelmet.hasWrapper = hasWrapper;
-    }
-
     @Override
     public void update() {
         if (eventFulfilled) {
@@ -74,7 +58,7 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
 //            System.out.println("down");
         }
 
-        System.out.println(event.getController().getAnimationState());
+//        System.out.println(event.getController().getAnimationState());
         // keep track of the animation state to know when the animation was completed
         if (event.getController().getAnimationState() == AnimationState.Running) {
             wasRunning = true;

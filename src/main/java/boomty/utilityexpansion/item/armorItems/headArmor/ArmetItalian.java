@@ -1,42 +1,35 @@
 package boomty.utilityexpansion.item.armorItems.headArmor;
 
-import boomty.utilityexpansion.events.Publisher;
-import boomty.utilityexpansion.events.Subscriber;
-import boomty.utilityexpansion.events.VisorEventHandler;
 import boomty.utilityexpansion.item.armorTypes.AttachableArmor;
-import boomty.utilityexpansion.item.armorTypes.ModArmor;
-import boomty.utilityexpansion.item.armorTypes.headArmor.EnclosedHelmet;
-import boomty.utilityexpansion.item.armorTypes.headArmor.HeavyPartialHelmet;
 import boomty.utilityexpansion.item.armorTypes.headArmor.VisoredHelmet;
 import boomty.utilityexpansion.registry.ItemRegistry;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import software.bernie.geckolib3.core.AnimationState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //public class ArmetItalian extends HeavyPartialHelmet implements EnclosedHelmet, Publisher, Subscriber {
 public class ArmetItalian extends VisoredHelmet implements AttachableArmor {
-    private List<String> attachmentList = new ArrayList<>();
+    // deprecated
+    private List<RegistryObject<? extends ArmorItem>> attachmentList = new ArrayList<>();
+
+    private List<RegistryObject<? extends ArmorItem>> possibleAttachments = new ArrayList<>();
 
     public ArmetItalian(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
         super(materialIn, slot, builder);
-        attachmentList.add("utilityexpansion:lorica_segmentata");
+        possibleAttachments.add(ItemRegistry.lorica_segmentata);
+        attachmentList.add(ItemRegistry.lorica_segmentata);
     }
 
-    public List<String> getAttachmentList() {
-        return attachmentList;
+    public List<RegistryObject<? extends ArmorItem>> getPossibleAttachments() {
+        return possibleAttachments;
     }
 
-//    public static boolean isVisorUp = true;
+
+    //    public static boolean isVisorUp = true;
 //    public static boolean eventFulfilled = true;
 //    private static boolean wasRunning = false;
 //    private static Subscriber armetItalianRenderer;
