@@ -4,6 +4,7 @@ import boomty.utilityexpansion.UtilityExpansion;
 import boomty.utilityexpansion.client.model.armor.ArmetItalianModel;
 import boomty.utilityexpansion.events.Subscriber;
 import boomty.utilityexpansion.item.armorItems.headArmor.ArmetItalian;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,14 +28,20 @@ public class ArmetItalianRenderer extends GeoArmorRenderer<ArmetItalian> impleme
     public void update() {
         GeoModel model = this.getGeoModelProvider().getModel(new ResourceLocation(UtilityExpansion.MOD_ID,
                 "geo/armet_italian.geo.json"));
-        if (ArmetItalian.eventFulfilled) {
-            if (ArmetItalian.isVisorUp) {
-                model.getBone("visor_up").get().setHidden(false);
-                model.getBone("visor_down").get().setHidden(true);
-            }
-            else {
-                model.getBone("visor_up").get().setHidden(true);
-                model.getBone("visor_down").get().setHidden(false);
+        if (itemStack != null) {
+            CompoundTag nbtData = this.itemStack.getTag();
+
+            if (nbtData != null) {
+                if (nbtData.getBoolean("eventFulfilled")) {
+                    if (nbtData.getBoolean("isVisorUp")) {
+                        model.getBone("visor_up").get().setHidden(false);
+                        model.getBone("visor_down").get().setHidden(true);
+                    }
+                    else {
+                        model.getBone("visor_up").get().setHidden(true);
+                        model.getBone("visor_down").get().setHidden(false);
+                    }
+                }
             }
         }
     }
