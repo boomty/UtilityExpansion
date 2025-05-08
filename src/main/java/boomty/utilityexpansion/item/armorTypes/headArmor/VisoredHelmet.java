@@ -1,32 +1,23 @@
 package boomty.utilityexpansion.item.armorTypes.headArmor;
 
+import boomty.utilityexpansion.client.renderer.armor.VisoredHelmetRenderer;
 import boomty.utilityexpansion.events.Publisher;
 import boomty.utilityexpansion.events.Subscriber;
 import boomty.utilityexpansion.events.VisorEventHandler;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet, Publisher, Subscriber {
     private static ItemStack currentItemStack = null;
-//    public static boolean hasWrapper = false;
-//    public static boolean hasVisor = false;
-//    public static boolean isVisorUp = false;
-//    public static boolean eventFulfilled = true;
-//    private static boolean wasRunning = false;
+    private AnimationState previousState = null;
     private static Subscriber correspondingRenderer;
 
     public VisoredHelmet(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
@@ -44,13 +35,11 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
 
     @Override
     public void update() {
+        // update occurs whenever the visor keybind is released
         CompoundTag nbtData = currentItemStack.getTag();
         if (nbtData != null) {
+            // set the flag eventfulfilled to be false so animation can run
             if (nbtData.getBoolean("eventFulfilled")) {
-                boolean isVisorUp = nbtData.getBoolean("isVisorUp");
-                isVisorUp = !isVisorUp;
-
-                nbtData.putBoolean("isVisorUp", isVisorUp);
                 nbtData.putBoolean("eventFulfilled", false);
 
                 currentItemStack.setTag(nbtData);
@@ -58,39 +47,52 @@ public class VisoredHelmet extends HeavyPartialHelmet implements EnclosedHelmet,
         }
     }
 
+    private boolean getAnimationCondition(AnimationEvent<?> event, CompoundTag nbtData, int flag) {
+        // for the first if-else-if statement in VisoredHelmet#Predicate to see if animation should be run
+        if (!nbtData.getBoolean("isRunning")
+                && event.getController().getAnimationState() == AnimationState.Stopped && flag == 0) {
+            return true;
+        }
+        // for the if statement in VisoredHelmet#Predicate to modify nbt data once animations have stopped
+        else return nbtData.getBoolean("isRunning")
+                && event.getController().getAnimationState() == AnimationState.Stopped && flag == 1;
+    }
+
     @Override
     protected <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         // AnimationEvent occurs every tick
         CompoundTag nbtData = currentItemStack.getTag();
 
-        if (nbtData != null) {
-            boolean isVisorUp = nbtData.getBoolean("isVisorUp");
-            boolean eventFulfilled = nbtData.getBoolean("eventFulfilled");
-
-
-            // decide animation based on current visor state, and if the event hasn't been fulfilled yet
-            if (isVisorUp && !eventFulfilled) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.visor_close", false));
-//            System.out.println("up");
-            }
-            else if (!isVisorUp && !eventFulfilled) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.visor_open", false));
-//            System.out.println("down");
+        if (nbtData != null && correspondingRenderer instanceof VisoredHelmetRenderer) {
+            if (previousState == null) {
+                previousState = event.getController().getAnimationState();
             }
 
-//        System.out.println(event.getController().getAnimationState());
-            // keep track of the animation state to know when the animation was completed
-            if (event.getController().getAnimationState() == AnimationState.Running) {
-                nbtData.putBoolean("wasRunning", true);
-            }
-            // once the animation has stopped
-            else if (event.getController().getAnimationState() == AnimationState.Stopped && nbtData.getBoolean("wasRunning")) {
-                nbtData.putBoolean("wasRunning", false);
-                nbtData.putBoolean("eventFulfilled", true);
-                correspondingRenderer.update();
-            }
+            if (((VisoredHelmetRenderer) correspondingRenderer).getLivingEntity() instanceof Player) {
+                boolean isVisorUp = nbtData.getBoolean("isVisorUp");
+                boolean eventFulfilled = nbtData.getBoolean("eventFulfilled");
 
-            currentItemStack.setTag(nbtData);
+                // decide animation based on current visor state, and if the event hasn't been fulfilled yet
+                if (isVisorUp && !eventFulfilled && getAnimationCondition(event, nbtData, 0)) {
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.visor_close", false));
+                    nbtData.putBoolean("isRunning", true);
+                }
+                else if (!isVisorUp && !eventFulfilled && getAnimationCondition(event, nbtData, 0)) {
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.visor_open", false));
+                    nbtData.putBoolean("isRunning", true);
+                }
+
+                System.out.println(event.getController().getAnimationState());
+                // once the animation has stopped
+                if (!eventFulfilled && getAnimationCondition(event, nbtData, 1)) {
+                    nbtData.putBoolean("isRunning", false);
+                    nbtData.putBoolean("eventFulfilled", true);
+                    nbtData.putBoolean("isVisorUp", !isVisorUp);
+                    correspondingRenderer.update();
+                }
+
+                currentItemStack.setTag(nbtData);
+            }
         }
 
 

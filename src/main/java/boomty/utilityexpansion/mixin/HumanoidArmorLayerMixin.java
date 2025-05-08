@@ -1,6 +1,9 @@
 package boomty.utilityexpansion.mixin;
 
+import boomty.utilityexpansion.client.renderer.armor.VisoredHelmetRenderer;
+import boomty.utilityexpansion.events.Subscriber;
 import boomty.utilityexpansion.item.armorTypes.AttachableArmor;
+import boomty.utilityexpansion.item.armorTypes.headArmor.VisoredHelmet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -12,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 import java.util.List;
 
@@ -34,6 +39,19 @@ public abstract class HumanoidArmorLayerMixin <T extends LivingEntity, M extends
 
     public HumanoidArmorLayerMixin(RenderLayerParent<T, M> p_117346_) {
         super(p_117346_);
+    }
+
+    @Inject(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IZLnet/minecraft/client/model/Model;FFFLnet/minecraft/resources/ResourceLocation;)V",
+    ordinal = 2, shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILSOFT)
+    public void renderArmorPiece(PoseStack p_117119_, MultiBufferSource p_117120_, T p_117121_, EquipmentSlot p_117122_,
+                                 int p_117123_, A p_117124_, CallbackInfo ci, ItemStack itemstack, ArmorItem armoritem,
+                                 Model model, boolean flag, boolean flag1) {
+        if (model instanceof GeoArmorRenderer<?> && model instanceof VisoredHelmetRenderer
+                && armoritem instanceof VisoredHelmet) {
+            VisoredHelmet.attachSubscriber((Subscriber) model);
+            ((VisoredHelmetRenderer) model).setItemStack(itemstack);
+            ((Subscriber) model).update();
+        }
     }
 
     /*

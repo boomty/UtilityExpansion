@@ -14,6 +14,6 @@ public class LoricaSegmentataRenderer extends GeoArmorRenderer<LoricaSegmentata>
 
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
-        GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, () -> new LoricaSegmentataRenderer());
+        GeoArmorRenderer.registerArmorRenderer(LoricaSegmentata.class, LoricaSegmentataRenderer::new);
     }
 }

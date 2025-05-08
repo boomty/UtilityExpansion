@@ -1,5 +1,6 @@
 package boomty.utilityexpansion.mixin;
 
+import boomty.utilityexpansion.client.renderer.armor.curios.FaceMaskRendererCurios;
 import boomty.utilityexpansion.item.ModItemPairs;
 import boomty.utilityexpansion.item.armorTypes.ModArmor;
 import boomty.utilityexpansion.item.armorTypes.headArmor.EnclosedHelmet;
@@ -67,6 +68,8 @@ public abstract class MultiPlayerGameModeMixin {
         if (p_171804_.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof EnclosedHelmet &&
                 (p_171801_ == 5 || p_171803_ == ClickType.QUICK_MOVE)) {
             ItemStack faceMask = new ItemStack(ItemRegistry.face_mask.get());
+//            FaceMaskRendererCurios rendererCurios = new FaceMaskRendererCurios();
+//            rendererCurios.render();
             Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosHelper().getEquippedCurios(p_171804_).resolve();
 
             if (optional.isPresent()) {

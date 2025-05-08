@@ -46,6 +46,12 @@ public class VisorEventHandler implements Publisher {
     @SubscribeEvent
     public static void inventoryTracker(PlayerTickEvent e) {
         ItemStack prevHeadArmor = headArmor;
+
+        if (prevHeadArmor == null) {
+            headArmor = e.player.getInventory().armor.get(3);
+            VisoredHelmet.updateItemStack(headArmor);
+        }
+
         headArmor = e.player.getInventory().armor.get(3);
 
         if (headArmor != prevHeadArmor) {
@@ -63,13 +69,13 @@ public class VisorEventHandler implements Publisher {
                 if (nbtData != null) {
                     if (!nbtData.contains("eventFulfilled")) {
                         nbtData.putBoolean("eventFulfilled", true);
-                        nbtData.putBoolean("hasVisor", false);
+                        nbtData.putBoolean("hasVisor", true);
                         nbtData.putBoolean("isVisorUp", false);
-                        nbtData.putBoolean("wasRunning", false);
+                        nbtData.putBoolean("isRunning", false);
 
                         headArmor.setTag(nbtData);
                     }
-                    else if (nbtData.getBoolean("eventFulfilled")){
+                    else if (nbtData.getBoolean("eventFulfilled")) {
                         // keep track of the state of the key to ensure that the action occurs only after the key is released
                         boolean currentState = InitializeKeys.toggleVisor.isDown();
                         if (currentState != previousState) {
