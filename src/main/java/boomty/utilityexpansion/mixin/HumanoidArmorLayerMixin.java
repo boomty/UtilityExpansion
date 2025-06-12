@@ -49,7 +49,7 @@ public abstract class HumanoidArmorLayerMixin <T extends LivingEntity, M extends
         if (model instanceof GeoArmorRenderer<?> && model instanceof VisoredHelmetRenderer
                 && armoritem instanceof VisoredHelmet) {
             VisoredHelmet.attachSubscriber((Subscriber) model);
-            ((VisoredHelmetRenderer) model).setItemStack(itemstack);
+            ((VisoredHelmetRenderer) model).setItemStack(itemstack, p_117121_);
             ((Subscriber) model).update();
         }
     }

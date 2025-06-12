@@ -24,7 +24,7 @@ public abstract class GenericArmor extends GeoArmorItem implements IAnimatable {
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller",
-                2, this::predicate));
+                10, this::predicate));
     }
 
     @Override

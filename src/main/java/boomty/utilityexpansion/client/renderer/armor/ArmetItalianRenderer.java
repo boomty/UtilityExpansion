@@ -33,20 +33,20 @@ public class ArmetItalianRenderer extends GeoArmorRenderer<ArmetItalian> impleme
         return entityLiving;
     }
 
-    public void setItemStack(ItemStack itemStack) {
+    public void setItemStack(ItemStack itemStack, LivingEntity entity) {
         this.itemStack = itemStack;
+        this.entityLiving = entity;
     }
 
     private boolean shouldBeVisible(String bone) {
         CompoundTag nbtData = itemStack.getTag();
 
-        if (nbtData != null && (nbtData.getBoolean("eventFulfilled") || !initialized)
-                && entityLiving instanceof Player) {
+        // if the nbt data is not null, or if the event has been fulfilled/model needs to be initialized
+        if (nbtData != null) {
+            if (!(entityLiving instanceof Player)) {
+                System.out.println(itemStack);
+            }
             if (nbtData.getBoolean("hasVisor")) {
-                if (!initialized) {
-                    initialized = true;
-                }
-
                 if (nbtData.getBoolean("isVisorUp")) {
                     return !bone.equals("visor_up");
                 }
@@ -55,6 +55,7 @@ public class ArmetItalianRenderer extends GeoArmorRenderer<ArmetItalian> impleme
                 }
             }
         }
+        // otherwise keep the model rendering as is
         else {
             GeoModel model = this.getGeoModelProvider().getModel(new ResourceLocation(UtilityExpansion.MOD_ID,
                     "geo/armet_italian.geo.json"));
@@ -71,29 +72,14 @@ public class ArmetItalianRenderer extends GeoArmorRenderer<ArmetItalian> impleme
                 "geo/armet_italian.geo.json"));
 
         // check if the renderer has been assigned to an itemstack and if that itemstack is a visored helmet
-        if (itemStack != null && itemStack.getItem() instanceof VisoredHelmet && entityLiving instanceof Player) {
+//        if (itemStack != null && itemStack.getItem() instanceof VisoredHelmet && entityLiving instanceof Player) {
+        if (itemStack != null && itemStack.getItem() instanceof VisoredHelmet) {
 //            CompoundTag nbtData = itemStack.getTag();
-
             // initialized allows for the visor to be rendered first even if a player does not press the keybind
             model.getBone("visor_up").get().setHidden(shouldBeVisible("visor_up"));
+//            System.out.println(shouldBeVisible("visor_up"));
             model.getBone("visor_down").get().setHidden(shouldBeVisible("visor_down"));
-
-//            if (nbtData != null && (nbtData.getBoolean("eventFulfilled") || !initialized)) {
-//                if (nbtData.getBoolean("hasVisor")) {
-//                    if (nbtData.getBoolean("isVisorUp")) {
-//                        model.getBone("visor_up").get().setHidden(false);
-//                        model.getBone("visor_down").get().setHidden(true);
-//                    }
-//                    else {
-//                        model.getBone("visor_up").get().setHidden(true);
-//                        model.getBone("visor_down").get().setHidden(false);
-//                    }
-//                }
-//
-//                if (!initialized) {
-//                    initialized = true;
-//                }
-//            }
+//            System.out.println(shouldBeVisible("visor_down"));
         }
         // if the itemstack has no nbt data
         else {

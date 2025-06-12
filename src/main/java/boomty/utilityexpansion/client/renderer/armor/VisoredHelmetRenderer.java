@@ -5,5 +5,5 @@ import net.minecraft.world.item.ItemStack;
 
 public interface VisoredHelmetRenderer {
     LivingEntity getLivingEntity();
-    void setItemStack(ItemStack itemStack);
+    void setItemStack(ItemStack itemStack, LivingEntity entity);
 }
